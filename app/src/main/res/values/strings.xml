@@ -8,4 +8,28 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_LogOut">Log Out</string>
+    <!--Strings for activity_add_house_listing added by Chris Clarke-->
+    <string name="item_address">Enter address</string>
+    <string name="item_price">Enter price</string>
+    <string name="item_bathrooms">Enter number of bathrooms</string>
+    <string name="item_bedrooms">Enter number of bedrooms</string>
+    <string name="item_garages">Enter number of garages</string>
+    <string name="item_floor">Enter number of floors</string>
+    <string name="item_school">Enter school district</string>
+    <string name="item_fireplace">Fireplace</string>
+    <string name="item_basement">Basement</string>
+    <string name="item_pool">Pool</string>
+    <string name="item_streetMain">House on main street?</string>
+    <string name="item_beachfront">House is a beachfront?</string>
+    <string name="item_houseType">What is the house type?</string>
+    <string name="item_sqfeet">How many Sq feet?</string>
+    <string name="item_lotSize">How big is the lot?</string>
+    <string name="item_yearBuilt">What year was house built?</string>
+    <string name="item_heating">What type of heating system?</string>
+    <string name="item_cooling">Does house have built in AC?</string>
+    <string name="item_addAptment">Does house have a rentable space?</string>
+    <string name="item_cancel_button">Cancel</string>
+    <string name="item_next_button">Next</string>
+    <string name="item_finish_button">Finish</string>
+    <string name="optional_features">Optional features to list:</string>
 </resources>
