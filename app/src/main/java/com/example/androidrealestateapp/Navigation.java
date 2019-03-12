@@ -1,5 +1,6 @@
 package com.example.androidrealestateapp;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +29,7 @@ public class Navigation extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +48,36 @@ public class Navigation extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /*******************************************************************************************************/
+        View headView = navigationView.getHeaderView(0);
+        TextView userName=headView.findViewById(R.id.UserName);
+        ImageView userImage=headView.findViewById(R.id.UserImage);
+        TextView userEmail=headView.findViewById(R.id.UserEmail);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            userName.setText(name);
+            String email = user.getEmail();
+            userEmail.setText(email);
+            Uri photoUrl = user.getPhotoUrl();
+            Picasso.get()
+                    .load(photoUrl)
+                    .resize(300, 250)
+                    .centerCrop().placeholder(R.drawable.ic_usericon)
+                    .error(R.drawable.ic_usericon)
+                    .transform(new CircleTransform())
+                    .into(userImage);
+        }
+
+
+
+
+        /*******************************************************************************************************/
+
+
     }
 
     @Override
@@ -75,7 +113,10 @@ public class Navigation extends AppCompatActivity
             //log out code here
         }
 
+
         return super.onOptionsItemSelected(item);
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
