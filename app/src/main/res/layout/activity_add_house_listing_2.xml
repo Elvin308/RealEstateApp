@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/optional_features"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/checkBoxFire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_fireplace" />
+
+            <CheckBox
+                android:id="@+id/checkBoxBasement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_basement" />
+
+            <CheckBox
+                android:id="@+id/checkBoxPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_pool" />
+
+            <CheckBox
+                android:id="@+id/checkBoxMainST"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_streetMain" />
+
+            <CheckBox
+                android:id="@+id/checkBoxBeach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_beachfront" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_cooling" />
+
+            <CheckBox
+                android:id="@+id/checkBoxPlusRent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_addAptment" />
+
+            <EditText
+                android:id="@+id/HouseStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/item_houseType" />
+
+            <EditText
+                android:id="@+id/SQFeet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="@string/item_sqfeet" />
+
+            <EditText
+                android:id="@+id/LotSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="@string/item_lotSize" />
+
+            <EditText
+                android:id="@+id/YearBilt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="@string/item_yearBuilt" />
+
+            <EditText
+                android:id="@+id/HeatType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/item_heating" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/CancelButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/item_cancel_button" />
+
+                <Button
+                    android:id="@+id/finishButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="150dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="0dp"
+                    android:text="@string/item_finish_button" />
+            </LinearLayout>
+            />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
