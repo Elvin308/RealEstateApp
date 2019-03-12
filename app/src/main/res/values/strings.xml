@@ -9,11 +9,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_LogOut">Log Out</string>
     <!--Strings for activity_add_house_listing added by Chris Clarke-->
-    <string name="item_address">Enter address</string>
-    <string name="item_price">Enter price</string>
-    <string name="item_bathrooms">Enter number of bathrooms</string>
-    <string name="item_bedrooms">Enter number of bedrooms</string>
-    <string name="item_garages">Enter number of garages</string>
     <string name="item_floor">Enter number of floors</string>
     <string name="item_school">Enter school district</string>
     <string name="item_fireplace">Fireplace</string>
@@ -32,4 +27,123 @@
     <string name="item_next_button">Next</string>
     <string name="item_finish_button">Finish</string>
     <string name="optional_features">Optional features to list:</string>
+    <!--~~~~~~~~~~~~~~~~Added for first page of add_house~~~~~~~~~~~~~~~~~~~~~~-->
+    <string name="zipcode">ZipCode:</string>
+    <string name="state">State:</string>
+    <string name="enter_city_name">Enter City Name</string>
+    <string name="city">City:</string>
+    <string name="enter_street_name">Enter Street Name</string>
+    <string name="street_name">Street Name:</string>
+    <string name="picture_of_house">Picture Of House</string>
+    <string name="enter_zipcode">Enter Zipcode</string>
+    <string name="price">Price:</string>
+    <string name="enter_price_amount">Enter Price Amount</string>
+    <string name="bathrooms">Bathrooms:</string>
+    <string name="bedrooms">Bedrooms:</string>
+    <string name="garages">Garages:</string>
+    <string name="floors">Floors:</string>
+    <string name="sale_rent">Sale/Rent:</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="ftSquare">Sq feet:</string>
+    <string name="lotSize">Lot size:</string>
+    <string name="yearbuilt">Year built:</string>
+    <string name="heating">Heating System:</string>
+    <string name="enter_SqFeet">Enter how many Sq feets</string>
+    <string name="enter_lotSize">Enter lot size</string>
+    <string name="enter_yearBuilt">Enter the year it was built</string>
+    <string name="distribution">Distribution System:</string>
+    <string name="additional">Additional Info:</string>
+    <!--~~~~~~~~~~~~~~~~String array for spinner~~~~~~~~~~~~~~~~~~~~~~-->
+    <string-array name="numbers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="numbersDecimal">
+        <item>0</item>
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>2.5</item>
+        <item>3</item>
+        <item>3.5</item>
+        <item>4</item>
+        <item>4.5</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="states">
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>AK</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
+    </string-array>
+    <string-array name="RentSale">
+        <item>Renting</item>
+        <item>Selling</item>
+    </string-array>
+    <string-array name="Heating">
+        <item>N/A</item>
+        <item>Furnace</item>
+        <item>Boiler</item>
+        <item>Heat Pump</item>
+        <item>Active Solar Heating</item>
+        <item>Electrical Heating</item>
+    </string-array>
+    <string-array name="Distribution">
+        <item>N/A</item>
+        <item>Forced Air System (Central)</item>
+        <item>Steam Radiant</item>
+    </string-array>
 </resources>

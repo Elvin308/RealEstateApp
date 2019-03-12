@@ -115,18 +115,18 @@ public class Navigation extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_ListHouse) {
+        if (id == R.id.nav_AddHouse) {
             Intent myIntent = new Intent(Navigation.this, add_house_listing.class);
             startActivity(myIntent);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_ListHouse) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_ManageHouses) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_ViewRequest) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_Statistics) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_Favorites) {
 
         }
 

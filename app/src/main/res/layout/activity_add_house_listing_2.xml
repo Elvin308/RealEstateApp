@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:visibility="visible">
+    android:orientation="vertical"
+    android:scrollbarStyle="outsideOverlay"
+    android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,77 +59,145 @@
                 android:id="@+id/checkBoxPlusRent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/item_addAptment" />
-
-            <EditText
-                android:id="@+id/HouseStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/item_houseType" />
-
-            <EditText
-                android:id="@+id/SQFeet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:hint="@string/item_sqfeet" />
-
-            <EditText
-                android:id="@+id/LotSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:hint="@string/item_lotSize" />
-
-            <EditText
-                android:id="@+id/YearBilt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:hint="@string/item_yearBuilt" />
-
-            <EditText
-                android:id="@+id/HeatType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/item_heating" />
+                android:text="@string/item_addAptment"
+                android:layout_marginBottom="20dp"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ftSquare"
+                    android:textSize="20sp"
+                    android:paddingBottom="10dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:hint="@string/enter_SqFeet"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lotSize"
+                    android:textSize="20sp"
+                    android:paddingBottom="10dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:hint="@string/enter_lotSize"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yearbuilt"
+                    android:textSize="20sp"
+                    android:paddingBottom="10dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:hint="@string/enter_yearBuilt"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heating"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="10dp"/>
+                <Spinner
+                    android:id="@+id/HeatingSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:paddingBottom="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distribution"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="10dp"/>
+                <Spinner
+                    android:id="@+id/HeatingDistributionSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:paddingBottom="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/CancelButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="@string/item_cancel_button" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"/>
 
                 <Button
-                    android:id="@+id/finishButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="0dp"
-                    android:text="@string/item_finish_button" />
+                    android:id="@+id/FinishButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/finish"/>
             </LinearLayout>
-            />
         </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</ScrollView>

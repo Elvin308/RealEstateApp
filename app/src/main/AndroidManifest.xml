@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".add_house_listing"></activity>
+        <activity android:name=".add_house_listing2"></activity>
         <activity
             android:name=".Navigation"
             android:label="@string/title_activity_navigation"

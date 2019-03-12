@@ -57,9 +57,7 @@ public class LogIn extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //SignIn.senderName=user.getDisplayName().toString();
                 startActivity(new Intent(this, Navigation.class));
-                // ...
             } else {
                 Toast.makeText(this, "You arren oer ", Toast.LENGTH_LONG).show();
                 // Sign in failed. If response is null the user canceled the

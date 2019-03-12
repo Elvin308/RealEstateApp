@@ -6,33 +6,32 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_ListHouse"
-
+            android:icon="@drawable/ic_baseline_import_contacts_24px"
+            android:title="View Listing" />
+        <item
+            android:id="@+id/nav_AddHouse"
             android:icon="@android:drawable/ic_input_add"
-            android:title="List House" />
+            android:title="Add House" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_ManageHouses"
+            android:icon="@drawable/ic_baseline_settings_applications_24px"
+            android:title="Manage Houses" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_ViewRequest"
+            android:icon="@drawable/ic_baseline_feedback_24px"
+            android:title="View Requests" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Others">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_Statistics"
+                android:icon="@drawable/ic_baseline_assessment_24px"
+                android:title="Show Statistics" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_Favorites"
+                android:icon="@drawable/ic_baseline_favorite_24px"
+                android:title="Favorites" />
         </menu>
     </item>
 
