@@ -3,8 +3,7 @@ package com.example.androidrealestateapp;
 import android.net.Uri;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +16,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -42,7 +44,6 @@ public class Navigation extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*******************************************************************************************************/
         View headView = navigationView.getHeaderView(0);
         TextView userName=headView.findViewById(R.id.UserName);
         ImageView userImage=headView.findViewById(R.id.UserImage);
@@ -64,13 +65,6 @@ public class Navigation extends AppCompatActivity
                     .transform(new CircleTransform())
                     .into(userImage);
         }
-
-
-
-
-        /*******************************************************************************************************/
-
-
     }
 
     @Override
@@ -103,7 +97,13 @@ public class Navigation extends AppCompatActivity
         }
         if(id == R.id.action_logOut)
         {
-            //log out code here
+            AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    startActivity(new Intent(Navigation.this,LogIn.class));
+                    finish();
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
