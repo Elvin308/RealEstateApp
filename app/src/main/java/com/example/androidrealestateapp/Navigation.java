@@ -123,6 +123,8 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.nav_ManageHouses) {
 
         } else if (id == R.id.nav_ViewRequest) {
+            Intent myIntent = new Intent(Navigation.this, List_of_Houses.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_Statistics) {
 
