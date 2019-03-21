@@ -119,12 +119,13 @@ public class Navigation extends AppCompatActivity
             Intent myIntent = new Intent(Navigation.this, add_house_listing.class);
             startActivity(myIntent);
         } else if (id == R.id.nav_ListHouse) {
+            Intent myIntent = new Intent(Navigation.this, List_of_Houses.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_ManageHouses) {
 
         } else if (id == R.id.nav_ViewRequest) {
-            Intent myIntent = new Intent(Navigation.this, List_of_Houses.class);
-            startActivity(myIntent);
+
 
         } else if (id == R.id.nav_Statistics) {
 
