@@ -8,6 +8,7 @@
             android:id="@+id/nav_ListHouse"
             android:icon="@drawable/ic_baseline_import_contacts_24px"
             android:title="View Listing" />
+
         <item
             android:id="@+id/nav_AddHouse"
             android:icon="@android:drawable/ic_input_add"

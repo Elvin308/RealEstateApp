@@ -55,6 +55,7 @@
     <string name="enter_yearBuilt">Enter the year it was built</string>
     <string name="distribution">Distribution System:</string>
     <string name="additional">Additional Info:</string>
+    <string name="back">Back</string>
     <!--~~~~~~~~~~~~~~~~String array for spinner~~~~~~~~~~~~~~~~~~~~~~-->
     <string-array name="numbers">
         <item>0</item>
@@ -145,5 +146,32 @@
         <item>N/A</item>
         <item>Forced Air System (Central)</item>
         <item>Steam Radiant</item>
+    </string-array>
+    <string-array name="FilterBathroom">
+        <item>0+</item>
+        <item>1+</item>
+        <item>1.5+</item>
+        <item>2+</item>
+        <item>3+</item>
+        <item>4+</item>
+    </string-array>
+    <string-array name="FilterBedroom">
+        <item>0+</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+        <item>4+</item>
+        <item>5+</item>
+        <item>6+</item>
+    </string-array>
+    <string-array name="FilterNumber">
+        <item>0+</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+    </string-array>
+    <string-array name="FilterRentSale">
+        <item>Rent</item>
+        <item>Buy</item>
     </string-array>
 </resources>

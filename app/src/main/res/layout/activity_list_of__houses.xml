@@ -4,27 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".List_of_Houses">
+    tools:context=".List_of_Houses"
+    android:background="#E0FFFF">
 
-    <TextView
+    <Button
+        android:id="@+id/filter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Textvv"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="My RecyclerView App Using MSSQL+JDBC"/>
+        android:layout_height="58dp"
+        android:text="Add Filter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/filter_button"
+        android:layout_marginTop="5dp" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/Textvv"
         android:scrollbars="vertical"
         android:choiceMode="multipleChoice"
-        android:id="@+id/recyclerView" />
+        android:id="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginTop="72dp"/>
+
+
+
+
+
 
 
 </android.support.constraint.ConstraintLayout>

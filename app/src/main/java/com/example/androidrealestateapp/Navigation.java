@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,13 +37,12 @@ public class Navigation extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         View headView = navigationView.getHeaderView(0);
         TextView userName=headView.findViewById(R.id.UserName);
@@ -116,16 +116,31 @@ public class Navigation extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_AddHouse) {
-            Intent myIntent = new Intent(Navigation.this, add_house_listing.class);
-            startActivity(myIntent);
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("toAddHouse1");
+            if (fragmentA == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new add_house_listing(),"toAddHouse1").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentA,"ManageHouse").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new add_house_listing(),"toAddHouse1").addToBackStack(null).commit();
+            }
         } else if (id == R.id.nav_ListHouse) {
-            Intent myIntent = new Intent(Navigation.this, List_of_Houses.class);
-            startActivity(myIntent);
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("ListHouses");
+            if (fragmentA == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new List_of_Houses(),"ListHouses").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentA,"ManageHouse").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new List_of_Houses(),"ListHouses").addToBackStack(null).commit();
+            }
 
         } else if (id == R.id.nav_ManageHouses) {
 
         } else if (id == R.id.nav_ViewRequest) {
-
 
         } else if (id == R.id.nav_Statistics) {
 
