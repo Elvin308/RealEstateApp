@@ -34,80 +34,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class List_of_Houses extends Fragment {
-    private ArrayList<ClassListItems> itemArrayList;  //List items Array
-    private List_of_Houses.MyAppAdapter myAppAdapter; //Array Adapter
+public class ManageHouse extends Fragment {
+    private ArrayList<HouseClass> itemArrayList;  //List items Array
+    private ManageHouse.MyAppAdapter myAppAdapter; //Array Adapter
     private RecyclerView recyclerView; //RecyclerView
     private RecyclerView.LayoutManager mLayoutManager;
     private boolean success = false; // boolean
     private ConnectionClass connectionClass; //Connection Class Variable
 
-    Button filters;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_list_of__houses, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_house, container, false);
 
 
-        filters=view.findViewById(R.id.filter);
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
 
-        filters.setOnClickListener( v ->{
-            //add dialog for filters and then modify the result
 
-            Dialog filterDialog=new Dialog(this.getContext());
-            filterDialog.setContentView(R.layout.filter_dialog);
-            filterDialog.setTitle("Filters");
-            filterDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            filterDialog.show();
-            filterDialog.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            Spinner bathroom =filterDialog.findViewById(R.id.filterBathroom);
-            Spinner bedroom =filterDialog.findViewById(R.id.filterBedroom);
-            Spinner garage =filterDialog.findViewById(R.id.filterGarage);
-            Spinner floor =filterDialog.findViewById(R.id.filterFloor);
-            Spinner rentSale =filterDialog.findViewById(R.id.filterRentSale);
-            Button enter=filterDialog.findViewById(R.id.filterEnter);
-            Button clear=filterDialog.findViewById(R.id.filterClear);
-
-            ArrayAdapter<CharSequence> adapterBathroom= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterBathroom,android.R.layout.simple_spinner_item);
-            adapterBathroom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            bathroom.setAdapter(adapterBathroom);
-
-            ArrayAdapter<CharSequence> adapterBedroom= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterBedroom,android.R.layout.simple_spinner_item);
-            adapterBedroom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            bedroom.setAdapter(adapterBedroom);
-
-
-            ArrayAdapter<CharSequence> adapterGarageFloor= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterNumber,android.R.layout.simple_spinner_item);
-            adapterGarageFloor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            garage.setAdapter(adapterGarageFloor);
-            floor.setAdapter(adapterGarageFloor);
-
-
-            ArrayAdapter<CharSequence> adapterRentSale= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterRentSale,android.R.layout.simple_spinner_item);
-            adapterRentSale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            rentSale.setAdapter(adapterRentSale);
-
-            enter.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //Need to make sure that the dialog remembers the values set so next time dialog is created values are still same
-                    //Need to make the recycle view refresh and give results that go along with the filters
-                    filterDialog.cancel();
-                }
-            });
-            clear.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    filterDialog.cancel();
-                }
-            });
-        });
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView); //Recylcerview Declaration
@@ -117,10 +63,10 @@ public class List_of_Houses extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         connectionClass = new ConnectionClass(); // Connection Class Initialization
-        itemArrayList = new ArrayList<ClassListItems>(); // Arraylist Initialization
+        itemArrayList = new ArrayList<HouseClass>(); // Arraylist Initialization
 
         // Calling Async Task
-        List_of_Houses.SyncData orderData = new List_of_Houses.SyncData();
+        ManageHouse.SyncData orderData = new ManageHouse.SyncData();
         orderData.execute("");
 
 
@@ -137,7 +83,7 @@ public class List_of_Houses extends Fragment {
         @Override
         protected void onPreExecute() //Starts the progress dailog
         {
-            progress = ProgressDialog.show(List_of_Houses.this.getContext(), "Synchronising",
+            progress = ProgressDialog.show(ManageHouse.this.getContext(), "Synchronising",
                     "RecyclerView Loading! Please Wait...", true);
         }
 
@@ -152,8 +98,18 @@ public class List_of_Houses extends Fragment {
                     success = false;
                 }
                 else {
+                    /******************************************************************
+                     * Make sure to change this query code
+                     *
+                     *
+                     *
+                     *
+                     *
+                     *
+                     ********************************************************************/
                     // Change below query according to your own database.
-                    String query = "SELECT * FROM Listing";
+                    //String query = "SELECT name,url FROM MainTable";
+                    String query = "SELECT StreetName,City,State,Zipcode,Price,NumOfBed FROM Listing";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -161,7 +117,7 @@ public class List_of_Houses extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new ClassListItems(rs.getInt("PropertyID"),rs.getString("Email"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("ZipCode"), rs.getDouble("Price"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfGarages"), rs.getString("ListingType"), rs.getBoolean("Fireplace"), rs.getBoolean("Basement"), rs.getBoolean("MainStHouse"), rs.getBoolean("Pool"), rs.getBoolean("BeachHouse"), rs.getBoolean("AirCondition"), rs.getBoolean("RentSpace"), rs.getString("SqFt"), rs.getString("LotSize"), rs.getInt("YearBuilt"), rs.getString("HeatingSystem"), rs.getString("DistributionSystem")));
+                                itemArrayList.add(new HouseClass(rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getInt("Price"),rs.getInt("NumOfBed")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -188,14 +144,14 @@ public class List_of_Houses extends Fragment {
         protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
         {
             progress.dismiss();
-            Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageHouse.this.getContext(), msg + "", Toast.LENGTH_LONG).show();
             if (success == false)
             {
             }
             else {
                 try
                 {
-                    myAppAdapter = new List_of_Houses.MyAppAdapter(itemArrayList , List_of_Houses.this);
+                    myAppAdapter = new ManageHouse.MyAppAdapter(itemArrayList , ManageHouse.this);
                     recyclerView.setAdapter(myAppAdapter);
                 } catch (Exception ex)
                 {
@@ -206,8 +162,8 @@ public class List_of_Houses extends Fragment {
         }
     }
 
-    public class MyAppAdapter extends RecyclerView.Adapter<List_of_Houses.MyAppAdapter.ViewHolder> {
-        private List<ClassListItems> values;
+    public class MyAppAdapter extends RecyclerView.Adapter<ManageHouse.MyAppAdapter.ViewHolder> {
+        private List<HouseClass> values;
         public Context context;
 
         public class ViewHolder extends RecyclerView.ViewHolder
@@ -227,7 +183,7 @@ public class List_of_Houses extends Fragment {
         }
 
         // Constructor
-        public MyAppAdapter(ArrayList<ClassListItems> myDataset, List_of_Houses context)
+        public MyAppAdapter(ArrayList<HouseClass> myDataset, ManageHouse context)
         {
             values = myDataset;
             this.context = context.getContext();
@@ -235,24 +191,23 @@ public class List_of_Houses extends Fragment {
 
         // Create new views (invoked by the layout manager) and inflates
         @Override
-        public List_of_Houses.MyAppAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ManageHouse.MyAppAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             // create a new view
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View v = inflater.inflate(R.layout.list_content, parent, false);
-            List_of_Houses.MyAppAdapter.ViewHolder vh = new List_of_Houses.MyAppAdapter.ViewHolder(v);
+            ManageHouse.MyAppAdapter.ViewHolder vh = new ManageHouse.MyAppAdapter.ViewHolder(v);
             return vh;
         }
 
         // Binding items to the view
         @Override
-        public void onBindViewHolder(List_of_Houses.MyAppAdapter.ViewHolder holder, final int position) {
+        public void onBindViewHolder(ManageHouse.MyAppAdapter.ViewHolder holder, final int position) {
 
-            final ClassListItems classListItems = values.get(position);
-
-            holder.textName.setText(classListItems.getStreetName() +" "+ classListItems.getCity());
-            Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
-
+            final HouseClass HouseClass = values.get(position);
+            String houseAdress= HouseClass.getStreetName()+", "+HouseClass.getCity()+", "+HouseClass.getState()+", "+HouseClass.getZipcode();
+            holder.textName.setText(houseAdress);
+            //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
         }
 
         // get item count returns the list item count

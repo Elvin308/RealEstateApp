@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class add_house_listing extends Fragment implements AdapterView.OnItemSelectedListener {
     @Nullable
@@ -54,14 +58,77 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         rentSale.setOnItemSelectedListener(this);
         state.setOnItemSelectedListener(this);
 
+        //ADDED NEW***********************************************************************
+        EditText street = view.findViewById(R.id.StreetName);
+        EditText city = view.findViewById(R.id.CityName);
+        EditText zip = view.findViewById(R.id.ZipCode);
+        EditText price = view.findViewById(R.id.EnterPrice);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+        //ADDED NEW***********************************************************************
+
         Button next = (Button) view.findViewById(R.id.NextButton);
         next.setOnClickListener(v->{
-            Fragment fragment = new add_house_listing2();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment,"toAddHouse2");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            //ADDED NEW***********************************************************************
+            boolean continueNexr = true;
+
+
+            if(street.getText().toString().trim().length() <= 0)
+            {
+                street.setError("Cannot be empty");
+                continueNexr = false;
+            }
+            if(city.getText().toString().trim().length() <= 0)
+            {
+                city.setError("Cannot be empty");
+                continueNexr = false;
+            }
+            if(price.getText().toString().trim().length() <= 0)
+            {
+                price.setError("Cannot be empty");
+                continueNexr = false;
+            }
+            if(zip.getText().toString().trim().length() <= 0)
+            {
+                zip.setError("Cannot be empty");
+                continueNexr = false;
+            }
+            if(continueNexr) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("Street", street.getText().toString());
+                bundle.putString("City", city.getText().toString());
+                bundle.putString("State", state.getSelectedItem().toString());
+                bundle.putString("Zip", zip.getText().toString());
+                bundle.putDouble("Price", Double.parseDouble(price.getText().toString()));
+                bundle.putDouble("Bath", Double.parseDouble(bathroom.getSelectedItem().toString()));
+                bundle.putDouble("Bed", Double.parseDouble(bedroom.getSelectedItem().toString()));
+                bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
+                bundle.putString("ListingType", rentSale.getSelectedItem().toString());
+                bundle.putString("Email", "test@test.com");
+
+            /*Navigation.newhouse.setStreetName(street.getText().toString());
+            Navigation.newhouse.setCity(city.getText().toString());
+            Navigation.newhouse.setState(state.getSelectedItem().toString());
+            Navigation.newhouse.setZipCode(zip.getText().toString());
+            Navigation.newhouse.setPrice(Double.parseDouble(price.getText().toString()));
+            Navigation.newhouse.setNumOfBath(Double.parseDouble(bathroom.getSelectedItem().toString()));
+
+            Navigation.newhouse.setNumOfBed(Double.parseDouble(bedroom.getSelectedItem().toString()));
+            Navigation.newhouse.setNumOfGarages(Double.parseDouble(garage.getSelectedItem().toString()));
+            Navigation.newhouse.setListingType(rentSale.getSelectedItem().toString());
+            Navigation.newhouse.setEmail(acct.getEmail());
+            //ADDED NEW***********************************************************************
+*/
+
+
+                Fragment fragment = new add_house_listing2();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "toAddHouse2");
+                fragmentTransaction.addToBackStack(null);
+                fragment.setArguments(bundle);
+                fragmentTransaction.commit();
+            }
         });
 
        Button cancel= (Button) view.findViewById(R.id.CancelButton);

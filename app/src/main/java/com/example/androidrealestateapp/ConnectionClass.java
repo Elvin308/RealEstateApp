@@ -12,7 +12,7 @@ public class ConnectionClass
 {
     // Change below settings as per your database ip and credentials
     String ip = "housedatabase.database.windows.net"; // if you have to add port then it would be like .i.e. 182.50.133.109:1433 or server name
-    String db = "housetest"; //Name of Database
+    String db = "housedatabase"; //Name of Database
     String un = "app"; //Database user
     String password = "Farmingdale123!"; //Database Password
 

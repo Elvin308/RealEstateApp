@@ -6,198 +6,202 @@
     android:scrollbarStyle="outsideOverlay"
     android:visibility="visible">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/optional_features"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/checkBoxFire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_fireplace" />
+
+        <CheckBox
+            android:id="@+id/checkBoxBasement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_basement" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_pool" />
+
+        <CheckBox
+            android:id="@+id/checkBoxMainST"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_streetMain" />
+
+        <CheckBox
+            android:id="@+id/checkBoxBeach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_beachfront" />
+
+        <CheckBox
+            android:id="@+id/checkBoxCool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_cooling" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPlusRent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_addAptment"
+            android:layout_marginBottom="20dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/optional_features"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:text="@string/ftSquare"
+                android:textSize="20sp"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"/>
 
-            <CheckBox
-                android:id="@+id/checkBoxFire"
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/sqfeet"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/item_fireplace" />
-
-            <CheckBox
-                android:id="@+id/checkBoxBasement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_basement" />
-
-            <CheckBox
-                android:id="@+id/checkBoxPool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_pool" />
-
-            <CheckBox
-                android:id="@+id/checkBoxMainST"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_streetMain" />
-
-            <CheckBox
-                android:id="@+id/checkBoxBeach"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_beachfront" />
-
-            <CheckBox
-                android:id="@+id/checkBoxCool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_cooling" />
-
-            <CheckBox
-                android:id="@+id/checkBoxPlusRent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_addAptment"
-                android:layout_marginBottom="20dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ftSquare"
-                    android:textSize="20sp"
-                    android:paddingBottom="10dp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:hint="@string/enter_SqFeet"
-                    android:inputType="number"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lotSize"
-                    android:textSize="20sp"
-                    android:paddingBottom="10dp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:hint="@string/enter_lotSize"
-                    android:inputType="number"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/yearbuilt"
-                    android:textSize="20sp"
-                    android:paddingBottom="10dp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:hint="@string/enter_yearBuilt"
-                    android:inputType="number" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/heating"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:paddingBottom="10dp"/>
-                <Spinner
-                    android:id="@+id/HeatingSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:paddingBottom="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/distribution"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:paddingBottom="10dp"/>
-                <Spinner
-                    android:id="@+id/HeatingDistributionSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:paddingBottom="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/backButton"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/back"/>
-
-                <Button
-                    android:id="@+id/FinishButton"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/finish"/>
-            </LinearLayout>
+                android:layout_weight="2"
+                android:hint="@string/enter_SqFeet"
+                android:inputType="number"
+                android:paddingBottom="10dp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/lotSize"
+                android:textSize="20sp"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/lotsize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/enter_lotSize"
+                android:inputType="number"
+                android:paddingBottom="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/yearbuilt"
+                android:textSize="20sp"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/yearbuilt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/enter_yearBuilt"
+                android:inputType="number"
+                android:paddingBottom="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/heating"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingBottom="10dp"/>
+            <Spinner
+                android:id="@+id/HeatingSpinner"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:paddingBottom="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/distribution"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingBottom="10dp"/>
+            <Spinner
+                android:id="@+id/HeatingDistributionSpinner"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:paddingBottom="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/back"/>
+
+            <Button
+                android:id="@+id/FinishButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/finish"/>
+        </LinearLayout>
+    </LinearLayout>
 </ScrollView>

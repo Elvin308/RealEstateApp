@@ -27,6 +27,8 @@ import com.squareup.picasso.Picasso;
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //static ClassListItems newhouse = new ClassListItems();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +141,16 @@ public class Navigation extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_ManageHouses) {
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("ManageHouses");
+            if (fragmentA == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManageHouse(),"ManageHouses").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentA,"ManageHouse").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManageHouse(),"ManageHouses").addToBackStack(null).commit();
+            }
 
         } else if (id == R.id.nav_ViewRequest) {
 
