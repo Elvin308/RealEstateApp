@@ -58,13 +58,11 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         rentSale.setOnItemSelectedListener(this);
         state.setOnItemSelectedListener(this);
 
-        //ADDED NEW***********************************************************************
         EditText street = view.findViewById(R.id.StreetName);
         EditText city = view.findViewById(R.id.CityName);
         EditText zip = view.findViewById(R.id.ZipCode);
         EditText price = view.findViewById(R.id.EnterPrice);
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
-        //ADDED NEW***********************************************************************
 
         Button next = (Button) view.findViewById(R.id.NextButton);
         next.setOnClickListener(v->{
@@ -105,20 +103,6 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                 bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
                 bundle.putString("ListingType", rentSale.getSelectedItem().toString());
                 bundle.putString("Email", "test@test.com");
-
-            /*Navigation.newhouse.setStreetName(street.getText().toString());
-            Navigation.newhouse.setCity(city.getText().toString());
-            Navigation.newhouse.setState(state.getSelectedItem().toString());
-            Navigation.newhouse.setZipCode(zip.getText().toString());
-            Navigation.newhouse.setPrice(Double.parseDouble(price.getText().toString()));
-            Navigation.newhouse.setNumOfBath(Double.parseDouble(bathroom.getSelectedItem().toString()));
-
-            Navigation.newhouse.setNumOfBed(Double.parseDouble(bedroom.getSelectedItem().toString()));
-            Navigation.newhouse.setNumOfGarages(Double.parseDouble(garage.getSelectedItem().toString()));
-            Navigation.newhouse.setListingType(rentSale.getSelectedItem().toString());
-            Navigation.newhouse.setEmail(acct.getEmail());
-            //ADDED NEW***********************************************************************
-*/
 
 
                 Fragment fragment = new add_house_listing2();

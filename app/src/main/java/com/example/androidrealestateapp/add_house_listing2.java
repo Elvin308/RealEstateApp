@@ -123,11 +123,6 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
                     Statement stmt = conn.createStatement();
 
 
-
-                    // create a sql date object so we can use it in our INSERT statement
-                    //Calendar calendar = Calendar.getInstance();
-                    //java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-
                     // the mysql insert statement
                     String query = "INSERT INTO Listing (Email, StreetName, City, State, ZipCode, Price, NumOfBath, NumOfBed, NumOfGarages, ListingType, Fireplace, Basement, MainStHouse, Pool, BeachHouse, AirCondition, RentSpace, SqFt, LotSize, YearBuilt, HeatingSystem, DistributionSystem) ";
                     query += "VALUES ('";

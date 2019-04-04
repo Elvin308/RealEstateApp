@@ -27,8 +27,6 @@ import com.squareup.picasso.Picasso;
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //static ClassListItems newhouse = new ClassListItems();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
