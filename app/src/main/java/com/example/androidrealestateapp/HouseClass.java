@@ -1,142 +1,155 @@
 package com.example.androidrealestateapp;
 
-public class HouseClass {
-   public int propertyId;
-   public String streetName;
-   public String city;
-   public String state;
-   public String zipcode;
-   public int price;
-   public double numOfBath;
-   public int numOfBed;
-   public int numOfGarage;
-   public String listingType;
-   public boolean fireplace;
-   public boolean basement;
-   public boolean mainStHouse;
-   public boolean pool;
-   public boolean beachHouse;
-   public boolean airConditining;
-   public boolean rentSpace;
-   public String sqFt;
-   public int yearBuilt;
-   public String heatingSystem;
-   public String distributionSystem;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+public class HouseClass
+{
 
-    public HouseClass(String streetName, String city, String state, String zipcode, int price, int numOfBed) {
-        this.streetName = streetName;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.price = price;
-        this.numOfBed = numOfBed;
+    //public String img; //Image URL
+    //public String name; //Name
+
+    public String Email;
+    //These can not be null
+    public int PropertyID;
+    public String StreetName;
+    public String City;
+    public String State;
+    public String ZipCode;
+    public Double Price;
+    public Double NumOfBath;
+    public Double NumOfBed;
+    public Double NumOfGarages;
+    public String ListingType;
+    //These can be null
+    public boolean Fireplace;
+    public boolean Basement;
+    public boolean MainStHouse;
+    public boolean Pool;
+    public boolean BeachHouse;
+    public boolean AirCondition;
+    public boolean RentSpace;
+    public String SqFt = "0";
+    public String LotSize = "0";
+    public int YearBuilt = 0000;
+    public String HeatingSystem = "null";
+    public String DistributionSystem = "null";
+
+    //public ClassListItems(String name, String img)
+    public HouseClass(int PropertyID, String Email, String StreetName, String City, String State, String ZipCode, Double Price, Double NumOfBath, Double NumOfBed, Double NumOfGarages, String ListingType, boolean Fireplace, boolean Basement, boolean MainStHouse, boolean Pool, boolean BeachHouse, boolean AirCondition, boolean RentSpace, String SqFt, String LotSize, int YearBuilt, String HeatingSystem, String DistributionSystem)
+    {
+        //this.img = img;
+        //this.name = name;
+        this.PropertyID = PropertyID;
+        this.Email = Email;
+        this.StreetName = StreetName;
+        this.City = City;
+        this.State = State;
+        this.ZipCode = ZipCode;
+        this.Price = Price;
+        this.NumOfBath = NumOfBath;
+        this.NumOfBed = NumOfBed;
+        this.NumOfGarages = NumOfGarages;
+        this.ListingType = ListingType;
+        this.Fireplace = Fireplace;
+        this.Basement = Basement;
+        this.MainStHouse = MainStHouse;
+        this.Pool = Pool;
+        this.BeachHouse = BeachHouse;
+        this.AirCondition = AirCondition;
+        this.RentSpace = RentSpace;
+        this.SqFt = SqFt;
+        this.LotSize = LotSize;
+        this.YearBuilt = YearBuilt;
+        this.HeatingSystem = HeatingSystem;
+        this.DistributionSystem = DistributionSystem;
     }
 
-    public HouseClass(String streetName, String city, String state, String zipcode, int price, double numOfBath, int numOfBed, int numOfGarage, String listingType, boolean fireplace, boolean basement, boolean mainStHouse, boolean pool, boolean beachHouse, boolean airConditining, boolean rentSpace, String sqFt, int yearBuilt, String heatingSystem, String distributionSystem) {
-        this.streetName = streetName;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.price = price;
-        this.numOfBath = numOfBath;
-        this.numOfBed = numOfBed;
-        this.numOfGarage = numOfGarage;
-        this.listingType = listingType;
-        this.fireplace = fireplace;
-        this.basement = basement;
-        this.mainStHouse = mainStHouse;
-        this.pool = pool;
-        this.beachHouse = beachHouse;
-        this.airConditining = airConditining;
-        this.rentSpace = rentSpace;
-        this.sqFt = sqFt;
-        this.yearBuilt = yearBuilt;
-        this.heatingSystem = heatingSystem;
-        this.distributionSystem = distributionSystem;
+    public HouseClass(String Email, String StreetName, String City, String State, String ZipCode,
+                          Double Price, Double NumOfBath, Double NumOfBed, Double NumOfGarages, String ListingType)
+    {
+        this.Email = Email;
+        this.StreetName = StreetName;
+        this.City = City;
+        this.State = State;
+        this.ZipCode = ZipCode;
+        this.Price = Price;
+        this.NumOfBath = NumOfBath;
+        this.NumOfBed = NumOfBed;
+        this.NumOfGarages = NumOfGarages;
+        this.ListingType = ListingType;
     }
 
-    public int getPropertyId() {
-        return propertyId;
+    public HouseClass(int propertyID, String streetName, String city, String state, String zipcode, double price, double numOfBed, double numOfBath, double numOfGarages) {
+        this.PropertyID = propertyID;
+        this.StreetName = streetName;
+        this.City = city;
+        this.State = state;
+        this.ZipCode = zipcode;
+        this.Price = price;
+        this.NumOfBed = numOfBed;
+        this.NumOfBath = numOfBath;
+        this.NumOfGarages = numOfGarages;
     }
 
-    public String getStreetName() {
-        return streetName;
+    public HouseClass()
+    {
+
     }
 
-    public String getCity() {
-        return city;
-    }
+    //get methods
+    public int getPropertyID() {return PropertyID;}
+    public String getEmail() {return Email;}
+    public String getStreetName() {return StreetName;}
+    public String getCity() {return City;}
+    public String getState() {return State;}
+    public String getZipCode() {return ZipCode;}
+    public Double getPrice() {return Price;}
+    public Double getNumOfBath() {return NumOfBath;}
+    public Double getNumOfBed() {return NumOfBed;}
+    public Double getNumOfGarages() {return NumOfGarages;}
+    public String getListingType() {return ListingType;}
+    public boolean getFireplace() {return Fireplace;}
+    public boolean getBasement() {return Basement;}
+    public boolean getMainStHouse() {return MainStHouse;}
+    public boolean getPool() {return Pool;}
+    public boolean getBeachHouse() {return BeachHouse;}
+    public boolean getAirCondition() {return AirCondition;}
+    public boolean getRentSpace() {return RentSpace;}
+    public String getSqFt() {return SqFt;}
+    public String getLotSize() {return LotSize;}
+    public int getYearBuilt() {return YearBuilt;}
+    public String getHeatingSystem() {return HeatingSystem;}
+    public String getDistributionSystem() {return DistributionSystem;}
 
-    public String getState() {
-        return state;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public double getNumOfBath() {
-        return numOfBath;
-    }
-
-    public int getNumOfBed() {
-        return numOfBed;
-    }
-
-    public int getNumOfGarage() {
-        return numOfGarage;
-    }
-
-    public String getListingType() {
-        return listingType;
-    }
-
-    public boolean isFireplace() {
-        return fireplace;
-    }
-
-    public boolean isBasement() {
-        return basement;
-    }
-
-    public boolean isMainStHouse() {
-        return mainStHouse;
-    }
-
-    public boolean isPool() {
-        return pool;
-    }
-
-    public boolean isBeachHouse() {
-        return beachHouse;
-    }
-
-    public boolean isAirConditining() {
-        return airConditining;
-    }
-
-    public boolean isRentSpace() {
-        return rentSpace;
-    }
-
-    public String getSqFt() {
-        return sqFt;
-    }
-
-    public int getYearBuilt() {
-        return yearBuilt;
-    }
-
-    public String getHeatingSystem() {
-        return heatingSystem;
-    }
-
-    public String getDistributionSystem() {
-        return distributionSystem;
-    }
+    //set methods
+    public void setPropertyID(int PropertyID) {this.PropertyID = PropertyID;}
+    public void setEmail(String Email){this.Email = Email;}
+    public void setStreetName(String StreetName) {this.StreetName = StreetName;}
+    public void setCity(String City) {this.City = City;}
+    public void setState(String State) {this.State = State;}
+    public void setZipCode(String ZipCode) {this.ZipCode = ZipCode;}
+    public void setPrice(Double Price) {this.Price = Price;}
+    public void setNumOfBath(Double NumOfBath) {this.NumOfBath = NumOfBath;}
+    public void setNumOfBed(Double NumOfBed) {this.NumOfBed = NumOfBed;}
+    public void setNumOfGarages(Double NumOfGarages) {this.NumOfGarages = NumOfGarages;}
+    public void setListingType(String ListingType) {this.ListingType = ListingType;}
+    public void setFireplace(boolean Fireplace) {this.Fireplace = Fireplace;}
+    public void setBasement(boolean Basement) {this.Basement = Basement;}
+    public void setMainStHouse(boolean MainStHouse) {this.MainStHouse = MainStHouse;}
+    public void setPool(boolean Pool) {this.Pool = Pool;}
+    public void setBeachHouse(boolean BeachHouse) {this.BeachHouse = BeachHouse;}
+    public void setAirCondition(boolean AirCondition) {this.AirCondition = AirCondition;}
+    public void setRentSpace(boolean RentSpace) {this.RentSpace = RentSpace;}
+    public void setSqFt(String SqFt) {this.SqFt = SqFt;}
+    public void setLotSize(String LotSize) {this.LotSize = LotSize;}
+    public void setYearBuilt(int YearBuilt) {this.YearBuilt = YearBuilt;}
+    public void setHeatingSystem(String HeatingSystem) {this.HeatingSystem = HeatingSystem;}
+    public void setDistributionSystem(String DistributionSystem) {this.DistributionSystem = DistributionSystem;}
 }

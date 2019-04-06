@@ -32,7 +32,7 @@ public class LogIn extends AppCompatActivity {
         // [START auth_fui_create_intent]
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
+                //new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
 
@@ -58,6 +58,16 @@ public class LogIn extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 startActivity(new Intent(this, Navigation.class));
+                /***********************************************************************************
+                 *
+                 *
+                 *
+                 *
+                 *
+                 *
+                 *
+                 *
+                ***********************************************************************************/
             } else {
                 Toast.makeText(this, "You arren oer ", Toast.LENGTH_LONG).show();
                 // Sign in failed. If response is null the user canceled the

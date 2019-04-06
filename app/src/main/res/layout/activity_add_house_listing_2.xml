@@ -23,44 +23,51 @@
             android:id="@+id/checkBoxFire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_fireplace" />
+            android:text="@string/item_fireplace"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxBasement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_basement" />
+            android:text="@string/item_basement"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxPool"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_pool" />
+            android:text="@string/item_pool"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxMainST"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_streetMain" />
+            android:text="@string/item_streetMain"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxBeach"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_beachfront" />
+            android:text="@string/item_beachfront"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxCool"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_cooling" />
+            android:text="@string/item_cooling"
+            android:textColor="@color/appColor"/>
 
         <CheckBox
             android:id="@+id/checkBoxPlusRent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_addAptment"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/appColor"/>
 
         <LinearLayout
             android:layout_width="match_parent"

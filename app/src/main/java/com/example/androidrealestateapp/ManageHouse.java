@@ -31,6 +31,7 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class ManageHouse extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private boolean success = false; // boolean
     private ConnectionClass connectionClass; //Connection Class Variable
+    Bundle bundleManageHouse;
 
 
     @Nullable
@@ -49,6 +51,7 @@ public class ManageHouse extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manage_house, container, false);
 
 
+        bundleManageHouse= getArguments();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
@@ -98,18 +101,9 @@ public class ManageHouse extends Fragment {
                     success = false;
                 }
                 else {
-                    /******************************************************************
-                     * Make sure to change this query code
-                     *
-                     *
-                     *
-                     *
-                     *
-                     *
-                     ********************************************************************/
+
                     // Change below query according to your own database.
-                    //String query = "SELECT name,url FROM MainTable";
-                    String query = "SELECT StreetName,City,State,Zipcode,Price,NumOfBed FROM Listing";
+                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"'";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -117,7 +111,7 @@ public class ManageHouse extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new HouseClass(rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getInt("Price"),rs.getInt("NumOfBed")));
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -169,7 +163,9 @@ public class ManageHouse extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder
         {
             // public image title and image url
-            public TextView textName;
+            public TextView addressHolder;
+            public TextView priceValue;
+            public TextView additionalInfo;
             public ImageView imageView;
             public View layout;
 
@@ -177,8 +173,10 @@ public class ManageHouse extends Fragment {
             {
                 super(v);
                 layout = v;
-                textName = (TextView) v.findViewById(R.id.textName);
+                addressHolder = (TextView) v.findViewById(R.id.address);
                 imageView = (ImageView) v.findViewById(R.id.imageView);
+                priceValue =  v.findViewById(R.id.price);
+                additionalInfo = v.findViewById(R.id.additional);
             }
         }
 
@@ -205,9 +203,18 @@ public class ManageHouse extends Fragment {
         public void onBindViewHolder(ManageHouse.MyAppAdapter.ViewHolder holder, final int position) {
 
             final HouseClass HouseClass = values.get(position);
-            String houseAdress= HouseClass.getStreetName()+", "+HouseClass.getCity()+", "+HouseClass.getState()+", "+HouseClass.getZipcode();
-            holder.textName.setText(houseAdress);
+            String houseAdress= HouseClass.getStreetName()+", "+HouseClass.getCity()+", "+HouseClass.getState()+", "+HouseClass.getZipCode();
+
+            double amount = HouseClass.getPrice();
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            String price= "$"+formatter.format(amount);
+
+            String additonal = "Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
+            holder.addressHolder.setText(houseAdress);
+            holder.priceValue.setText(price);
+            holder.additionalInfo.setText(additonal);
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
+            Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
         }
 
         // get item count returns the list item count

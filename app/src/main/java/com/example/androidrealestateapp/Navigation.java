@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class Navigation extends AppCompatActivity
         ImageView userImage=headView.findViewById(R.id.UserImage);
         TextView userEmail=headView.findViewById(R.id.UserEmail);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
@@ -140,14 +141,19 @@ public class Navigation extends AppCompatActivity
 
         } else if (id == R.id.nav_ManageHouses) {
             Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("ManageHouses");
+            Bundle bundleManageHouse = new Bundle();
+            bundleManageHouse.putString("UserEmail",user.getEmail().toLowerCase());
             if (fragmentA == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManageHouse(),"ManageHouses").addToBackStack(null).commit();
+                Fragment newFrag = new ManageHouse();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"ManageHouses").addToBackStack(null).commit();
             }
             else{ //fragment exist
                 getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
                 getSupportFragmentManager().popBackStack();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentA,"ManageHouse").addToBackStack(null).commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManageHouse(),"ManageHouses").addToBackStack(null).commit();
+                Fragment newFrag = new ManageHouse();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"ManageHouses").addToBackStack(null).commit();
             }
 
         } else if (id == R.id.nav_ViewRequest) {

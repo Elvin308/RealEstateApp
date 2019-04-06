@@ -31,11 +31,12 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class List_of_Houses extends Fragment {
-    private ArrayList<ClassListItems> itemArrayList;  //List items Array
+    private ArrayList<HouseClass> itemArrayList;  //List items Array
     private List_of_Houses.MyAppAdapter myAppAdapter; //Array Adapter
     private RecyclerView recyclerView; //RecyclerView
     private RecyclerView.LayoutManager mLayoutManager;
@@ -117,7 +118,7 @@ public class List_of_Houses extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         connectionClass = new ConnectionClass(); // Connection Class Initialization
-        itemArrayList = new ArrayList<ClassListItems>(); // Arraylist Initialization
+        itemArrayList = new ArrayList<HouseClass>(); // Arraylist Initialization
 
         // Calling Async Task
         List_of_Houses.SyncData orderData = new List_of_Houses.SyncData();
@@ -153,7 +154,7 @@ public class List_of_Houses extends Fragment {
                 }
                 else {
                     // Change below query according to your own database.
-                    String query = "SELECT * FROM Listing";
+                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -161,7 +162,7 @@ public class List_of_Houses extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new ClassListItems(rs.getInt("PropertyID"),rs.getString("Email"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("ZipCode"), rs.getDouble("Price"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfGarages"), rs.getString("ListingType"), rs.getBoolean("Fireplace"), rs.getBoolean("Basement"), rs.getBoolean("MainStHouse"), rs.getBoolean("Pool"), rs.getBoolean("BeachHouse"), rs.getBoolean("AirCondition"), rs.getBoolean("RentSpace"), rs.getString("SqFt"), rs.getString("LotSize"), rs.getInt("YearBuilt"), rs.getString("HeatingSystem"), rs.getString("DistributionSystem")));
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -207,13 +208,15 @@ public class List_of_Houses extends Fragment {
     }
 
     public class MyAppAdapter extends RecyclerView.Adapter<List_of_Houses.MyAppAdapter.ViewHolder> {
-        private List<ClassListItems> values;
+        private List<HouseClass> values;
         public Context context;
 
         public class ViewHolder extends RecyclerView.ViewHolder
         {
             // public image title and image url
-            public TextView textName;
+            public TextView addressHolder;
+            public TextView priceValue;
+            public TextView additionalInfo;
             public ImageView imageView;
             public View layout;
 
@@ -221,13 +224,15 @@ public class List_of_Houses extends Fragment {
             {
                 super(v);
                 layout = v;
-                textName = (TextView) v.findViewById(R.id.textName);
+                addressHolder = (TextView) v.findViewById(R.id.address);
                 imageView = (ImageView) v.findViewById(R.id.imageView);
+                priceValue =  v.findViewById(R.id.price);
+                additionalInfo = v.findViewById(R.id.additional);
             }
         }
 
         // Constructor
-        public MyAppAdapter(ArrayList<ClassListItems> myDataset, List_of_Houses context)
+        public MyAppAdapter(ArrayList<HouseClass> myDataset, List_of_Houses context)
         {
             values = myDataset;
             this.context = context.getContext();
@@ -248,11 +253,19 @@ public class List_of_Houses extends Fragment {
         @Override
         public void onBindViewHolder(List_of_Houses.MyAppAdapter.ViewHolder holder, final int position) {
 
-            final ClassListItems classListItems = values.get(position);
+            final HouseClass HouseClass = values.get(position);
+            String houseAdress= HouseClass.getStreetName()+", "+HouseClass.getCity()+", "+HouseClass.getState()+", "+HouseClass.getZipCode();
 
-            holder.textName.setText(classListItems.getStreetName() +" "+ classListItems.getCity());
+            double amount = HouseClass.getPrice();
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            String price= "$"+formatter.format(amount);
+
+            String additonal = "Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
+            holder.addressHolder.setText(houseAdress);
+            holder.priceValue.setText(price);
+            holder.additionalInfo.setText(additonal);
+            //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
-
         }
 
         // get item count returns the list item count
