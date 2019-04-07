@@ -176,6 +176,23 @@
         <item>Buy</item>
     </string-array>
 
+    <!--~~~~~~~~~~~~~~~~Strings for ViewHouse~~~~~~~~~~~~~~~~~~~~~~-->
+    <string name="FactFig">Facts and Figures</string>
+    <string name="year">Year Built</string>
+    <string name="garage">Number of Garages</string>
+    <string name="Lot">Lot</string>
+    <string name="Addfeature">Additional Features</string>
+    <string name="Air">Air Condition</string>
+    <string name="Heat">Heating</string>
+    <string name="Basement">Basement</string>
+    <string name="Fireplace">Fireplace</string>
+    <string name="DistSystem">Distribution System</string>
+    <string name="pool">Pool</string>
+    <string name="Beach">Beach House</string>
+    <string name="mainSt">On Main Street</string>
+    <string name="rentspace">Rent Space</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_Profile">Profile</string>
