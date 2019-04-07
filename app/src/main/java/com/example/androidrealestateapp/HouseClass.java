@@ -83,6 +83,34 @@ public class HouseClass
         this.ListingType=listingType;
     }
 
+    public void addHouseInfo( int propertyID, String streetName, String city, String state, String zipCode, Double price, Double numOfFloors, Double numOfBath, Double numOfBed, Double numOfGarages, String listingType, boolean fireplace, boolean basement, boolean mainStHouse, boolean pool, boolean beachHouse, boolean airCondition, boolean rentSpace, String sqFt, String lotSize, int yearBuilt, String heatingSystem, String distributionSystem) {
+
+        PropertyID = propertyID;
+        StreetName = streetName;
+        City = city;
+        State = state;
+        ZipCode = zipCode;
+        Price = price;
+        NumOfFloors = numOfFloors;
+        NumOfBath = numOfBath;
+        NumOfBed = numOfBed;
+        NumOfGarages = numOfGarages;
+        ListingType = listingType;
+        Fireplace = fireplace;
+        Basement = basement;
+        MainStHouse = mainStHouse;
+        Pool = pool;
+        BeachHouse = beachHouse;
+        AirCondition = airCondition;
+        RentSpace = rentSpace;
+        SqFt = sqFt;
+        LotSize = lotSize;
+        YearBuilt = yearBuilt;
+        HeatingSystem = heatingSystem;
+        DistributionSystem = distributionSystem;
+    }
+
+
     public HouseClass()
     {
 
