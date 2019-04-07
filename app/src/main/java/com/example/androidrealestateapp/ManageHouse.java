@@ -103,7 +103,7 @@ public class ManageHouse extends Fragment {
                 else {
 
                     // Change below query according to your own database.
-                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"'";
+                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"'";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -111,7 +111,7 @@ public class ManageHouse extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages")));
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"),rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -167,6 +167,7 @@ public class ManageHouse extends Fragment {
             public TextView priceValue;
             public TextView additionalInfo;
             public ImageView imageView;
+            public TextView listing;
             public View layout;
 
             public ViewHolder(View v)
@@ -177,6 +178,7 @@ public class ManageHouse extends Fragment {
                 imageView = (ImageView) v.findViewById(R.id.imageView);
                 priceValue =  v.findViewById(R.id.price);
                 additionalInfo = v.findViewById(R.id.additional);
+                listing = v.findViewById(R.id.Listing);
             }
         }
 
@@ -209,10 +211,11 @@ public class ManageHouse extends Fragment {
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             String price= "$"+formatter.format(amount);
 
-            String additonal = "Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
+            String additonal = "Floors: "+HouseClass.getNumOfFloors()+"     Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
             holder.addressHolder.setText(houseAdress);
             holder.priceValue.setText(price);
             holder.additionalInfo.setText(additonal);
+            holder.listing.setText(HouseClass.getListingType());
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
         }

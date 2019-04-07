@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -147,13 +149,13 @@ public class List_of_Houses extends Fragment {
                         } else {
                             // Change below query according to your own database.
                             user = FirebaseAuth.getInstance().getCurrentUser();
-                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"';";
+                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery(resetQuery);
                             if (rs != null) {
                                 while (rs.next()) {
                                     try {
-                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages")));
+                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"),rs.getDouble("NumOfFloors"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                     }
@@ -178,24 +180,14 @@ public class List_of_Houses extends Fragment {
                 public void onClick(View v) {
 
                     boolean continueWithQuery=true;
-                    String listingType;
-                    if(rentSale.getSelectedItem().toString().equals("Rent"))
-                    {
-                        listingType ="Renting";
-                    }
-                    else
-                    {
-                        listingType ="Selling";
-                    }
 
 
                     String bathNum=removeLastChar(bathroom.getSelectedItem().toString());
-                    String bedNum=removeLastChar(bathroom.getSelectedItem().toString());
-                    String garageNum=removeLastChar(bathroom.getSelectedItem().toString());
-                    String floorNum=removeLastChar(bathroom.getSelectedItem().toString());
-                    String modifyQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"' AND listingtype = '"+listingType+
-                            "' AND NumOfBath >= '"+bathNum+"' AND NumOfBed >= '"+bedNum+"' AND NumOfGarages >= '"+garageNum+"'  ";
-                    //Need to add floors
+                    String bedNum=removeLastChar(bedroom.getSelectedItem().toString());
+                    String garageNum=removeLastChar(garage.getSelectedItem().toString());
+                    String floorNum=removeLastChar(floor.getSelectedItem().toString());
+                    String modifyQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+
+                            "' AND NumOfBath >= '"+bathNum+"' AND NumOfBed >= '"+bedNum+"' AND NumOfGarages >= '"+garageNum+"'  AND NumOfFloors >= '"+floorNum+"' ";
                     String Searchzip= zip.getText().toString().trim();
                     String minNum = min.getText().toString().trim();
                     String maxNum = max.getText().toString().trim();
@@ -203,10 +195,22 @@ public class List_of_Houses extends Fragment {
                     boolean isNumberMax = android.text.TextUtils.isDigitsOnly(maxNum);
                     boolean isNumberZip = android.text.TextUtils.isDigitsOnly(Searchzip);
 
+                    String listingType;
+
+
+                    if(rentSale.getSelectedItemPosition() == 1)
+                    {
+                        modifyQuery+="AND listingtype = 'Renting' ";
+                    }
+                    else if(rentSale.getSelectedItemPosition() == 2)
+                    {
+                        modifyQuery+="AND listingtype = 'Selling' ";
+                    }
+
                     if(Searchzip.length() > 0) {
                         if (isNumberZip)
                         {
-                            modifyQuery += "AND Zipcode = '" + Searchzip + "'";
+                            modifyQuery += "AND Zipcode = '" + Searchzip + "' ";
                             continueWithQuery = true;
                         }
                         else
@@ -261,7 +265,7 @@ public class List_of_Houses extends Fragment {
                                 if (rs != null) {
                                     while (rs.next()) {
                                         try {
-                                            itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages")));
+                                            itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                                         } catch (Exception ex) {
                                             ex.printStackTrace();
                                         }
@@ -313,7 +317,7 @@ public class List_of_Houses extends Fragment {
                 else {
                     // Change below query according to your own database.
                     user = FirebaseAuth.getInstance().getCurrentUser();
-                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"';";
+                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -321,7 +325,7 @@ public class List_of_Houses extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages")));
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -384,6 +388,7 @@ public class List_of_Houses extends Fragment {
             public TextView priceValue;
             public TextView additionalInfo;
             public ImageView imageView;
+            public TextView listing;
             public View layout;
 
             public ViewHolder(View v)
@@ -394,6 +399,7 @@ public class List_of_Houses extends Fragment {
                 imageView = (ImageView) v.findViewById(R.id.imageView);
                 priceValue =  v.findViewById(R.id.price);
                 additionalInfo = v.findViewById(R.id.additional);
+                listing = v.findViewById(R.id.Listing);
             }
         }
 
@@ -426,10 +432,11 @@ public class List_of_Houses extends Fragment {
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             String price= "$"+formatter.format(amount);
 
-            String additonal = "Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
+            String additonal = "Floors: "+HouseClass.getNumOfFloors()+"     Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
             holder.addressHolder.setText(houseAdress);
             holder.priceValue.setText(price);
             holder.additionalInfo.setText(additonal);
+            holder.listing.setText(HouseClass.getListingType());
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
         }

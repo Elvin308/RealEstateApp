@@ -171,6 +171,7 @@
         <item>3+</item>
     </string-array>
     <string-array name="FilterRentSale">
+        <item>Both</item>
         <item>Rent</item>
         <item>Buy</item>
     </string-array>

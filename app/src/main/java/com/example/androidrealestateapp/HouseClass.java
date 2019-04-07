@@ -23,6 +23,7 @@ public class HouseClass
     public String State;
     public String ZipCode;
     public Double Price;
+    public Double NumOfFloors;
     public Double NumOfBath;
     public Double NumOfBed;
     public Double NumOfGarages;
@@ -41,61 +42,45 @@ public class HouseClass
     public String HeatingSystem = "null";
     public String DistributionSystem = "null";
 
-    //public ClassListItems(String name, String img)
-    public HouseClass(int PropertyID, String Email, String StreetName, String City, String State, String ZipCode, Double Price, Double NumOfBath, Double NumOfBed, Double NumOfGarages, String ListingType, boolean Fireplace, boolean Basement, boolean MainStHouse, boolean Pool, boolean BeachHouse, boolean AirCondition, boolean RentSpace, String SqFt, String LotSize, int YearBuilt, String HeatingSystem, String DistributionSystem)
-    {
-        //this.img = img;
-        //this.name = name;
-        this.PropertyID = PropertyID;
-        this.Email = Email;
-        this.StreetName = StreetName;
-        this.City = City;
-        this.State = State;
-        this.ZipCode = ZipCode;
-        this.Price = Price;
-        this.NumOfBath = NumOfBath;
-        this.NumOfBed = NumOfBed;
-        this.NumOfGarages = NumOfGarages;
-        this.ListingType = ListingType;
-        this.Fireplace = Fireplace;
-        this.Basement = Basement;
-        this.MainStHouse = MainStHouse;
-        this.Pool = Pool;
-        this.BeachHouse = BeachHouse;
-        this.AirCondition = AirCondition;
-        this.RentSpace = RentSpace;
-        this.SqFt = SqFt;
-        this.LotSize = LotSize;
-        this.YearBuilt = YearBuilt;
-        this.HeatingSystem = HeatingSystem;
-        this.DistributionSystem = DistributionSystem;
+    public HouseClass(String email, int propertyID, String streetName, String city, String state, String zipCode, Double price, Double numOfFloors, Double numOfBath, Double numOfBed, Double numOfGarages, String listingType, boolean fireplace, boolean basement, boolean mainStHouse, boolean pool, boolean beachHouse, boolean airCondition, boolean rentSpace, String sqFt, String lotSize, int yearBuilt, String heatingSystem, String distributionSystem) {
+        Email = email;
+        PropertyID = propertyID;
+        StreetName = streetName;
+        City = city;
+        State = state;
+        ZipCode = zipCode;
+        Price = price;
+        NumOfFloors = numOfFloors;
+        NumOfBath = numOfBath;
+        NumOfBed = numOfBed;
+        NumOfGarages = numOfGarages;
+        ListingType = listingType;
+        Fireplace = fireplace;
+        Basement = basement;
+        MainStHouse = mainStHouse;
+        Pool = pool;
+        BeachHouse = beachHouse;
+        AirCondition = airCondition;
+        RentSpace = rentSpace;
+        SqFt = sqFt;
+        LotSize = lotSize;
+        YearBuilt = yearBuilt;
+        HeatingSystem = heatingSystem;
+        DistributionSystem = distributionSystem;
     }
 
-    public HouseClass(String Email, String StreetName, String City, String State, String ZipCode,
-                          Double Price, Double NumOfBath, Double NumOfBed, Double NumOfGarages, String ListingType)
-    {
-        this.Email = Email;
-        this.StreetName = StreetName;
-        this.City = City;
-        this.State = State;
-        this.ZipCode = ZipCode;
-        this.Price = Price;
-        this.NumOfBath = NumOfBath;
-        this.NumOfBed = NumOfBed;
-        this.NumOfGarages = NumOfGarages;
-        this.ListingType = ListingType;
-    }
-
-    public HouseClass(int propertyID, String streetName, String city, String state, String zipcode, double price, double numOfBed, double numOfBath, double numOfGarages) {
+    public HouseClass(int propertyID, String streetName, String city, String state, String zipcode, double price, double numOfFloors, double numOfBed, double numOfBath, double numOfGarages,String listingType) {
         this.PropertyID = propertyID;
         this.StreetName = streetName;
         this.City = city;
         this.State = state;
         this.ZipCode = zipcode;
         this.Price = price;
+        this.NumOfFloors=numOfFloors;
         this.NumOfBed = numOfBed;
         this.NumOfBath = numOfBath;
         this.NumOfGarages = numOfGarages;
+        this.ListingType=listingType;
     }
 
     public HouseClass()
@@ -110,6 +95,7 @@ public class HouseClass
     public String getCity() {return City;}
     public String getState() {return State;}
     public String getZipCode() {return ZipCode;}
+    public Double getNumOfFloors() {return NumOfFloors;}
     public Double getPrice() {return Price;}
     public Double getNumOfBath() {return NumOfBath;}
     public Double getNumOfBed() {return NumOfBed;}
@@ -135,6 +121,7 @@ public class HouseClass
     public void setCity(String City) {this.City = City;}
     public void setState(String State) {this.State = State;}
     public void setZipCode(String ZipCode) {this.ZipCode = ZipCode;}
+    public void setNumOfFloors(Double numOfFloors) {NumOfFloors = numOfFloors;}
     public void setPrice(Double Price) {this.Price = Price;}
     public void setNumOfBath(Double NumOfBath) {this.NumOfBath = NumOfBath;}
     public void setNumOfBed(Double NumOfBed) {this.NumOfBed = NumOfBed;}
