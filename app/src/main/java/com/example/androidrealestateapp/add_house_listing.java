@@ -67,30 +67,30 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         Button next = (Button) view.findViewById(R.id.NextButton);
         next.setOnClickListener(v->{
             //ADDED NEW***********************************************************************
-            boolean continueNexr = true;
+            boolean continueNext = true;
 
 
             if(street.getText().toString().trim().length() <= 0)
             {
                 street.setError("Cannot be empty");
-                continueNexr = false;
+                continueNext = false;
             }
             if(city.getText().toString().trim().length() <= 0)
             {
                 city.setError("Cannot be empty");
-                continueNexr = false;
+                continueNext = false;
             }
             if(price.getText().toString().trim().length() <= 0)
             {
                 price.setError("Cannot be empty");
-                continueNexr = false;
+                continueNext = false;
             }
             if(zip.getText().toString().trim().length() <= 0)
             {
                 zip.setError("Cannot be empty");
-                continueNexr = false;
+                continueNext = false;
             }
-            if(continueNexr) {
+            if(continueNext) {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("Street", street.getText().toString());

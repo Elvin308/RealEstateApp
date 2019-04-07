@@ -18,7 +18,7 @@
         android:text="Welcome, Please select a navigation tab to start"
         android:textSize="30dp"
         android:gravity="center"/>
-        -->
+-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

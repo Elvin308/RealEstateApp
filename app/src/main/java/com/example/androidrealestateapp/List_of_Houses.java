@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.PrintWriter;
@@ -44,6 +47,8 @@ public class List_of_Houses extends Fragment {
     private ConnectionClass connectionClass; //Connection Class Variable
 
     Button filters;
+
+    FirebaseUser user;
 
 
     @Nullable
@@ -154,7 +159,8 @@ public class List_of_Houses extends Fragment {
                 }
                 else {
                     // Change below query according to your own database.
-                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing";
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"';";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created

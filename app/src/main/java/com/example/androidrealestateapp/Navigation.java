@@ -66,6 +66,14 @@ public class Navigation extends AppCompatActivity
                     .transform(new CircleTransform())
                     .into(userImage);
         }
+
+
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new List_of_Houses(), "ListHouses").commit();
+            navigationView.setCheckedItem(R.id.nav_ListHouse);
+        }
+
+
     }
 
     @Override
@@ -93,7 +101,7 @@ public class Navigation extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_Profile) {
             return true;
         }
         if(id == R.id.action_logOut)

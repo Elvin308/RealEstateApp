@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -13,6 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -57,17 +61,35 @@ public class LogIn extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                startActivity(new Intent(this, Navigation.class));
-                /***********************************************************************************
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                ***********************************************************************************/
+                try
+                {
+                    ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
+                    Connection conn = (Connection) connectionClass.CONN(); //Connection Object
+                    Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+
+                    // the mysql insert statement
+                    String query = "Select * from users where email='"+user.getEmail()+"';";//user.getEmail()
+                    ResultSet rs = stmt.executeQuery(query);
+                    rs.last();
+                    int count = rs.getRow();
+                    if(count<=0)
+                    {
+                        startActivity(new Intent(this, AddUser.class));
+                        conn.close();
+                        finish();
+                    }
+                    else
+                    {
+                        conn.close();
+                        startActivity(new Intent(this, Navigation.class));
+                        finish();
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Toast.makeText(getContext(), "Got an exception!",Toast.LENGTH_SHORT);
+                }
             } else {
                 Toast.makeText(this, "You arren oer ", Toast.LENGTH_LONG).show();
                 // Sign in failed. If response is null the user canceled the
