@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class List_of_Houses extends Fragment {
     private boolean success = false; // boolean
     private ConnectionClass connectionClass; //Connection Class Variable
 
+    String[] oldFilters;
+
     Button filters;
 
     FirebaseUser user;
@@ -61,6 +64,20 @@ public class List_of_Houses extends Fragment {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
+
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView); //Recylcerview Declaration
+        recyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        connectionClass = new ConnectionClass(); // Connection Class Initialization
+        itemArrayList = new ArrayList<HouseClass>(); // Arraylist Initialization
+
+        // Calling Async Task
+        List_of_Houses.SyncData orderData = new List_of_Houses.SyncData();
+        orderData.execute("");
 
         filters.setOnClickListener( v ->{
             //add dialog for filters and then modify the result
@@ -99,36 +116,172 @@ public class List_of_Houses extends Fragment {
             adapterRentSale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             rentSale.setAdapter(adapterRentSale);
 
-            enter.setOnClickListener(new View.OnClickListener(){
+            EditText zip = filterDialog.findViewById(R.id.filterZipcode);
+            EditText min = filterDialog.findViewById(R.id.filterMin);
+            EditText max = filterDialog.findViewById(R.id.filterMax);
+
+            if(oldFilters!=null)
+            {
+                zip.setText(oldFilters[0]);
+                min.setText(oldFilters[1]);
+                max.setText(oldFilters[2]);
+                bathroom.setSelection(Integer.valueOf(oldFilters[3]));
+                bedroom.setSelection(Integer.valueOf(oldFilters[4]));
+                garage.setSelection(Integer.valueOf(oldFilters[5]));
+                floor.setSelection(Integer.valueOf(oldFilters[6]));
+                rentSale.setSelection(Integer.valueOf(oldFilters[7]));
+            }
+
+            clear.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     //Need to make sure that the dialog remembers the values set so next time dialog is created values are still same
                     //Need to make the recycle view refresh and give results that go along with the filters
+                    oldFilters=null;
+                    itemArrayList.clear();
+
+                    try {
+                        Connection conn = connectionClass.CONN(); //Connection Object
+                        if (conn == null) {
+                            success = false;
+                        } else {
+                            // Change below query according to your own database.
+                            user = FirebaseAuth.getInstance().getCurrentUser();
+                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"';";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(resetQuery);
+                            if (rs != null) {
+                                while (rs.next()) {
+                                    try {
+                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages")));
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+                                //make a toast
+                                success = true;
+                            } else {
+                                //make a toast
+                            }
+                        }
+                    } catch (Exception e) {
+                        //make a toast
+                    }
+                    myAppAdapter.notifyDataSetChanged();
+
                     filterDialog.cancel();
+
                 }
             });
-            clear.setOnClickListener(new View.OnClickListener(){
+            enter.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    filterDialog.cancel();
+
+                    boolean continueWithQuery=true;
+                    String listingType;
+                    if(rentSale.getSelectedItem().toString().equals("Rent"))
+                    {
+                        listingType ="Renting";
+                    }
+                    else
+                    {
+                        listingType ="Selling";
+                    }
+
+
+                    String bathNum=removeLastChar(bathroom.getSelectedItem().toString());
+                    String bedNum=removeLastChar(bathroom.getSelectedItem().toString());
+                    String garageNum=removeLastChar(bathroom.getSelectedItem().toString());
+                    String floorNum=removeLastChar(bathroom.getSelectedItem().toString());
+                    String modifyQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfBed,NumOfBath,NumOfGarages FROM Listing WHERE email <> '"+user.getEmail()+"' AND listingtype = '"+listingType+
+                            "' AND NumOfBath >= '"+bathNum+"' AND NumOfBed >= '"+bedNum+"' AND NumOfGarages >= '"+garageNum+"'  ";
+                    //Need to add floors
+                    String Searchzip= zip.getText().toString().trim();
+                    String minNum = min.getText().toString().trim();
+                    String maxNum = max.getText().toString().trim();
+                    boolean isNumberMin = android.text.TextUtils.isDigitsOnly(minNum);
+                    boolean isNumberMax = android.text.TextUtils.isDigitsOnly(maxNum);
+                    boolean isNumberZip = android.text.TextUtils.isDigitsOnly(Searchzip);
+
+                    if(Searchzip.length() > 0) {
+                        if (isNumberZip)
+                        {
+                            modifyQuery += "AND Zipcode = '" + Searchzip + "'";
+                            continueWithQuery = true;
+                        }
+                        else
+                        {
+                            zip.setError("Must be a number");
+                            continueWithQuery = false;
+                        }
+                    }
+                    if(minNum.length()>0)
+                    {
+                        if(isNumberMin)
+                        {
+                            modifyQuery+=" AND price > '"+minNum+"' ";
+                            continueWithQuery = true;
+                        }
+                        else
+                        {
+                            min.setError("Must be a number");
+                            continueWithQuery = false;
+                        }
+                    }
+                    if(maxNum.length()>0)
+                    {
+                        if(isNumberMax)
+                        {
+                            modifyQuery+=" AND price < '"+maxNum+"' ";
+                            continueWithQuery = true;
+                        }
+                        else
+                        {
+                            max.setError("Must be a number");
+                            continueWithQuery = false;
+                        }
+                    }
+
+                    oldFilters = new String[]{Searchzip,minNum,maxNum,String.valueOf(bathroom.getSelectedItemPosition()),String.valueOf(bedroom.getSelectedItemPosition()),
+                            String.valueOf(garage.getSelectedItemPosition()),String.valueOf(floor.getSelectedItemPosition()),String.valueOf(rentSale.getSelectedItemPosition())};
+
+                    if(continueWithQuery) {
+                        itemArrayList.clear();
+
+                        try {
+                            Connection conn = connectionClass.CONN(); //Connection Object
+                            if (conn == null) {
+                                success = false;
+                            } else {
+                                // Change below query according to your own database.
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                modifyQuery += ";";
+                                Statement stmt = conn.createStatement();
+                                ResultSet rs = stmt.executeQuery(modifyQuery);
+                                if (rs != null) {
+                                    while (rs.next()) {
+                                        try {
+                                            itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages")));
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                    //make a toast
+                                    success = true;
+                                } else {
+                                    //make a toast
+                                }
+                            }
+                        } catch (Exception e) {
+                            //make a toast
+                        }
+                        myAppAdapter.notifyDataSetChanged();
+
+                        filterDialog.cancel();
+                    }
                 }
             });
         });
-
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView); //Recylcerview Declaration
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        connectionClass = new ConnectionClass(); // Connection Class Initialization
-        itemArrayList = new ArrayList<HouseClass>(); // Arraylist Initialization
-
-        // Calling Async Task
-        List_of_Houses.SyncData orderData = new List_of_Houses.SyncData();
-        orderData.execute("");
-
 
 
         return view;
@@ -202,7 +355,14 @@ public class List_of_Houses extends Fragment {
             else {
                 try
                 {
-                    myAppAdapter = new List_of_Houses.MyAppAdapter(itemArrayList , List_of_Houses.this);
+                    if(myAppAdapter==null)
+                    {
+                        myAppAdapter = new List_of_Houses.MyAppAdapter(itemArrayList , List_of_Houses.this);
+                    }
+                    else
+                    {
+                        myAppAdapter.notifyDataSetChanged();
+                    }
                     recyclerView.setAdapter(myAppAdapter);
                 } catch (Exception ex)
                 {
@@ -280,5 +440,8 @@ public class List_of_Houses extends Fragment {
             return values.size();
         }
 
+    }
+    private static String removeLastChar(String str) {
+        return str.substring(0, str.length() - 1);
     }
 }
