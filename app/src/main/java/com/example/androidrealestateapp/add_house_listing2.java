@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,11 +125,11 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
 
                     // the mysql insert statement
-                    String query = "INSERT INTO Listing (Email, StreetName, City, State, ZipCode, Price, NumOfBath, NumOfBed, NumOfGarages, ListingType, Fireplace, Basement, MainStHouse, Pool, BeachHouse, AirCondition, RentSpace, SqFt, LotSize, YearBuilt, HeatingSystem, DistributionSystem) ";
+                    String query = "INSERT INTO Listing (Email, StreetName, City, State, ZipCode, Price, NumOfFloors, NumOfBath, NumOfBed, NumOfGarages, ListingType, Fireplace, Basement, MainStHouse, Pool, BeachHouse, AirCondition, RentSpace, SqFt, LotSize, YearBuilt, HeatingSystem, DistributionSystem) ";
                     query += "VALUES ('";
                     query+= bundle.getString("Email") + "', '" + bundle.getString("Street") + "', '"
                             + bundle.getString("City") + "', '" + bundle.getString("State") + "', '" +
-                            bundle.getString("Zip") + "', " + bundle.getDouble("Price") + ", " +
+                            bundle.getString("Zip") + "', " + bundle.getDouble("Price") + ", " +bundle.getDouble("Floors")+", "+
                             bundle.getDouble("Bath") + ", " + bundle.getDouble("Bed") + ", " + bundle.getDouble("Garage") + ", '" +
                             bundle.getString("ListingType") + "', '" + FireplaceStr + "', '" + BasementStr + "', '" +
                             MainStreetStr + "', '" + PoolStr + "', '" + BeachHouseStr + "', '" +

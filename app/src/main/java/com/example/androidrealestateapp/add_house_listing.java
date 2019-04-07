@@ -18,12 +18,18 @@ import android.widget.Spinner;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class add_house_listing extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    FirebaseUser user;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.activity_add_house_listing,container,false);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         Spinner bathroom= view.findViewById(R.id.BathroomSpinner);
         Spinner bedroom= view.findViewById(R.id.BedroomSpinner);
@@ -98,11 +104,12 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                 bundle.putString("State", state.getSelectedItem().toString());
                 bundle.putString("Zip", zip.getText().toString());
                 bundle.putDouble("Price", Double.parseDouble(price.getText().toString()));
+                bundle.putDouble("Floors", Double.parseDouble(floor.getSelectedItem().toString()));
                 bundle.putDouble("Bath", Double.parseDouble(bathroom.getSelectedItem().toString()));
                 bundle.putDouble("Bed", Double.parseDouble(bedroom.getSelectedItem().toString()));
                 bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
                 bundle.putString("ListingType", rentSale.getSelectedItem().toString());
-                bundle.putString("Email", "test@test.com");
+                bundle.putString("Email", user.getEmail());
 
 
                 Fragment fragment = new add_house_listing2();
