@@ -3,6 +3,7 @@ package com.example.androidrealestateapp;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -352,7 +353,7 @@ public class List_of_Houses extends Fragment {
         protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
         {
             progress.dismiss();
-            Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_LONG).show();
+            Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
             if (success == false)
             {
             }
@@ -439,6 +440,11 @@ public class List_of_Houses extends Fragment {
             holder.listing.setText(HouseClass.getListingType());
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
+
+            holder.layout.setOnClickListener(v->{
+                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()));
+                //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
+            });
         }
 
         // get item count returns the list item count

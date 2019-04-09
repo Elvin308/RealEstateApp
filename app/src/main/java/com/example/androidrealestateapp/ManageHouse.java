@@ -3,6 +3,7 @@ package com.example.androidrealestateapp;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -138,7 +140,7 @@ public class ManageHouse extends Fragment {
         protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
         {
             progress.dismiss();
-            Toast.makeText(ManageHouse.this.getContext(), msg + "", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageHouse.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
             if (success == false)
             {
             }
@@ -160,6 +162,8 @@ public class ManageHouse extends Fragment {
         private List<HouseClass> values;
         public Context context;
 
+
+
         public class ViewHolder extends RecyclerView.ViewHolder
         {
             // public image title and image url
@@ -170,6 +174,7 @@ public class ManageHouse extends Fragment {
             public TextView listing;
             public View layout;
 
+
             public ViewHolder(View v)
             {
                 super(v);
@@ -179,7 +184,9 @@ public class ManageHouse extends Fragment {
                 priceValue =  v.findViewById(R.id.price);
                 additionalInfo = v.findViewById(R.id.additional);
                 listing = v.findViewById(R.id.Listing);
+
             }
+
         }
 
         // Constructor
@@ -218,6 +225,12 @@ public class ManageHouse extends Fragment {
             holder.listing.setText(HouseClass.getListingType());
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
+
+            holder.layout.setOnClickListener(v->{
+                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()));
+                //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
+            });
+
         }
 
         // get item count returns the list item count
