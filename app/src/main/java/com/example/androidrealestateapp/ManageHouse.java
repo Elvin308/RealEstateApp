@@ -46,7 +46,6 @@ public class ManageHouse extends Fragment {
     private ConnectionClass connectionClass; //Connection Class Variable
     Bundle bundleManageHouse;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,7 +104,7 @@ public class ManageHouse extends Fragment {
                 else {
 
                     // Change below query according to your own database.
-                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"'";
+                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"' ORDER BY PropertyID asc;";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created

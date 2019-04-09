@@ -87,6 +87,8 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
+                Boolean continueQuery = true;
+
                 String FireplaceStr = (fire.isChecked())?"True":"False";
                 String BasementStr = (Basement.isChecked())?"True":"False";
                 String MainStreetStr = (main.isChecked())?"True":"False";
@@ -94,9 +96,9 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
                 String BeachHouseStr = (beach.isChecked())?"True":"False";
                 String AirConditionStr = (ac.isChecked())?"True":"False";
                 String RentSpaceStr = (rent.isChecked())?"True":"False";
-                String sqfeetStr="N/A";
-                String lotStr = "N/A";
-                int yearInt = 0;
+                int sqfeetStr = 0;
+                int lotStr = 0;
+                int yearInt = 1000;
 
                 String heatingStr = heating.getSelectedItem().toString();
                 String distributionStr = distribution.getSelectedItem().toString();
@@ -104,68 +106,85 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                 if(sqfeet.getText().toString().trim().length()>0)
                 {
-                    sqfeetStr = sqfeet.toString();
+                    sqfeetStr = Integer.valueOf(sqfeet.getText().toString());
+                    continueQuery = true;
                 }
+                else { sqfeet.setError("Cannot be empty"); continueQuery = false; }
+
+
                 if(lot.getText().toString().trim().length()>0)
                 {
-                    lotStr = lot.toString();
+                    lotStr = Integer.valueOf(lot.getText().toString());
+                    continueQuery = true;
                 }
+                else { lot.setError("Cannot be empty"); continueQuery = false; }
+
+
                 if(year.getText().toString().trim().length()>0)
                 {
                     yearInt = Integer.parseInt(year.getText().toString());
+                    continueQuery = true;
                 }
+                else { year.setError("Cannot be empty"); continueQuery = false; }
 
 
-                try
+                if(continueQuery)
                 {
 
-                    ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
-                    Connection conn = (Connection) connectionClass.CONN(); //Connection Object
-                    Statement stmt = conn.createStatement();
+                    try
+                    {
+
+                        ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
+                        Connection conn = (Connection) connectionClass.CONN(); //Connection Object
+                        Statement stmt = conn.createStatement();
+                        String thisT="insert into Listing(Email,StreetName,City,State,ZipCode,Price,NumOfFloors,NumOfBath,NumOfBed,NumOfGarages,ListingType,Fireplace,Basement,MainStHouse,Pool,BeachHouse,AirCondition,RentSpace,SqFt,LotSize,YearBuilt,HeatingSystem,DistributionSystem) values ('StarrynightFSN@gmail.com','#### 159 Street','Queens','NY','11122','100000','1','2','3','1','Selling','True','True','False','False','True','True','False','100','200','1995','Boiler','Steam Radiant');";
 
 
-                    // the mysql insert statement
-                    String query = "INSERT INTO Listing (Email, StreetName, City, State, ZipCode, Price, NumOfFloors, NumOfBath, NumOfBed, NumOfGarages, ListingType, Fireplace, Basement, MainStHouse, Pool, BeachHouse, AirCondition, RentSpace, SqFt, LotSize, YearBuilt, HeatingSystem, DistributionSystem) ";
-                    query += "VALUES ('";
-                    query+= bundle.getString("Email") + "', '" + bundle.getString("Street") + "', '"
-                            + bundle.getString("City") + "', '" + bundle.getString("State") + "', '" +
-                            bundle.getString("Zip") + "', " + bundle.getDouble("Price") + ", " +bundle.getDouble("Floors")+", "+
-                            bundle.getDouble("Bath") + ", " + bundle.getDouble("Bed") + ", " + bundle.getDouble("Garage") + ", '" +
-                            bundle.getString("ListingType") + "', '" + FireplaceStr + "', '" + BasementStr + "', '" +
-                            MainStreetStr + "', '" + PoolStr + "', '" + BeachHouseStr + "', '" +
-                            AirConditionStr + "', '" + RentSpaceStr + "', '" + sqfeetStr + "', '" +
-                            lotStr + "', " + yearInt + ", '" + heatingStr + "', '" +
-                            distributionStr + "');";
+                        // the mysql insert statement
+                        String query = "insert into Listing(Email,StreetName,City,State,ZipCode,Price,NumOfFloors,NumOfBath,NumOfBed,NumOfGarages,ListingType,Fireplace,Basement,MainStHouse,Pool,BeachHouse,AirCondition,RentSpace,SqFt,LotSize,YearBuilt,HeatingSystem,DistributionSystem) ";
 
 
-                    stmt.executeQuery(query);
+                        query+= "VALUES ('"+ bundle.getString("Email") + "', '" + bundle.getString("Street") +
+                                "', '" + bundle.getString("City") + "', '" + bundle.getString("State") + "', '" +
+                                bundle.getString("Zip") + "', " + bundle.getDouble("Price") + ", " +bundle.getDouble("Floors")+
+                                ", "+ bundle.getDouble("Bath") + ", " + bundle.getDouble("Bed") + ", " +
+                                bundle.getDouble("Garage") + ", '" + bundle.getString("ListingType")+"'" ;
 
-                    conn.close();
+                        query +=  ", '" + FireplaceStr + "', '" + BasementStr + "', '" + MainStreetStr + "', '" + PoolStr +
+                                "', '" + BeachHouseStr + "', '" + AirConditionStr + "', '" + RentSpaceStr + "', '" +
+                                sqfeetStr + "', '" + lotStr + "', " + yearInt + ", '" + heatingStr + "', '" +
+                                distributionStr + "');";
+
+
+                        stmt.executeQuery(query);
+
+
+                        Log.e("ERORR","Worked");
+                        conn.close();
+
+                    }
+                    catch (Exception f)
+                    {
+                        Log.e("ERORR",f.getMessage());
+                    }
+
+                    Fragment fragmentA = getActivity().getSupportFragmentManager().findFragmentByTag("toAddHouse2");
+                    Fragment fragmentB = getActivity().getSupportFragmentManager().findFragmentByTag("toAddHouse1");
+                    if (fragmentA == null) {
+
+                    }
+                    else
+                    {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.remove(fragmentA);
+                        fragmentTransaction.remove(fragmentB);
+                        fragmentTransaction.commit();
+                        fragmentManager.popBackStack();
+                        fragmentManager.popBackStack();
+                    }
+
                 }
-                catch (Exception e)
-                {
-                    Toast.makeText(getContext(), "Got an exception!",Toast.LENGTH_SHORT);
-                }
-
-
-
-                Fragment fragmentA = getActivity().getSupportFragmentManager().findFragmentByTag("toAddHouse2");
-                Fragment fragmentB = getActivity().getSupportFragmentManager().findFragmentByTag("toAddHouse1");
-                if (fragmentA == null) {
-
-                }
-                else
-                {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.remove(fragmentA);
-                    fragmentTransaction.remove(fragmentB);
-                    fragmentTransaction.commit();
-                    fragmentManager.popBackStack();
-                    fragmentManager.popBackStack();
-                }
-
-
 
             }
 

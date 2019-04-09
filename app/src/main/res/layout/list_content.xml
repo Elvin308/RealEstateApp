@@ -60,7 +60,8 @@
             android:textSize="15sp"
             android:gravity="center|start"
             android:layout_marginTop="5dp"
-            android:textColor="@color/lightBlack"/>
+            android:textColor="@color/lightBlack"
+            android:lines="1"/>
 
         <TextView
             android:id="@+id/additional"
@@ -70,6 +71,7 @@
             android:textSize="12sp"
             android:gravity="center|start"
             android:layout_marginTop="5dp"
+            android:lines="1"
             android:textColor="@color/superLightBlack"/>
 
     </LinearLayout>

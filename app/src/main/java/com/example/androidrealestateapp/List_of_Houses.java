@@ -309,34 +309,34 @@ public class List_of_Houses extends Fragment {
         protected String doInBackground(String... strings)  // Connect to the database, write query and add items to array list
         {
             try
-            {
-                Connection conn = connectionClass.CONN(); //Connection Object
-                if (conn == null)
-                {
-                    success = false;
-                }
-                else {
-                    // Change below query according to your own database.
-                    user = FirebaseAuth.getInstance().getCurrentUser();
-                    String query = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
-                    if (rs != null) // if resultset not null, I add items to itemArraylist using class created
                     {
-                        while (rs.next())
+                        Connection conn = connectionClass.CONN(); //Connection Object
+                        if (conn == null)
                         {
-                            try {
-                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+                            success = false;
                         }
-                        msg = "Found";
-                        success = true;
-                    } else {
-                        msg = "No Data found!";
-                        success = false;
-                    }
+                        else {
+                            // Change below query according to your own database.
+                            user = FirebaseAuth.getInstance().getCurrentUser();
+                            String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"' ORDER BY NEWID();";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(query);
+                            if (rs != null) // if resultset not null, I add items to itemArraylist using class created
+                            {
+                                while (rs.next())
+                                {
+                                    try {
+                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+                                msg = "Found";
+                                success = true;
+                            } else {
+                                msg = "No Data found!";
+                                success = false;
+                            }
                 }
             } catch (Exception e)
             {
