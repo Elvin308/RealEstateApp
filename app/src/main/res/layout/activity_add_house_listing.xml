@@ -17,8 +17,8 @@
         android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/imageView3"
+        <ImageButton
+            android:id="@+id/ADDHouse"
             android:layout_width="358dp"
             android:layout_height="170dp"
             android:layout_gravity="center"

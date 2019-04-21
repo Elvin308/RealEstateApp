@@ -1,7 +1,13 @@
 package com.example.androidrealestateapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +15,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +33,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -30,6 +41,8 @@ import java.sql.Statement;
 public class add_house_listing extends Fragment implements AdapterView.OnItemSelectedListener {
 
     FirebaseUser user;
+    View view;
+    Bitmap housepic;
 
     @Nullable
     @Override
@@ -75,6 +88,49 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         EditText zip = view.findViewById(R.id.ZipCode);
         EditText price = view.findViewById(R.id.EnterPrice);
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+
+        ImageButton AddPicture = (ImageButton) view.findViewById(R.id.ADDHouse);
+        final PopupMenu dropDownMenu = new PopupMenu(getContext(), AddPicture);
+
+        final Menu menu = dropDownMenu.getMenu();
+        menu.add(0, 0, 0, "Camera roll");
+        menu.add(0, 1, 0, "Camera");
+        dropDownMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
+        dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case 0:
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.putExtra(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        //intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
+                        housepic = intent.getExtras().getParcelable("data");
+
+                        AddPicture.setImageBitmap(housepic);
+
+                        return true;
+
+                    case 1:
+
+                        Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //startActivityForResult(photoCaptureIntent);
+                        //Bitmap housepiccam = (Bitmap)data.getExtras().get("data");
+                        //AddPicture.setImageBitmap(housepiccam);
+
+
+
+                        return true;
+                }
+                return false;
+            }
+        });
+        AddPicture.setOnClickListener(v->{
+
+            dropDownMenu.show();
+
+        });
 
         Button next = (Button) view.findViewById(R.id.NextButton);
         next.setOnClickListener(v->{
@@ -134,6 +190,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
                         bundle.putString("ListingType", rentSale.getSelectedItem().toString());
                         bundle.putString("Email", user.getEmail());
+                        bundle.putParcelable("housepic",housepic);
 
 
                         Fragment fragment = new add_house_listing2();
@@ -186,5 +243,6 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
+
 
 }
