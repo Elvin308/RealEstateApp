@@ -23,9 +23,9 @@
             android:layout_height="170dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:scaleType="centerCrop"
             android:contentDescription="@string/picture_of_house"
-            android:src="@drawable/housepic" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/cameraicon" />
 
 
         <TextView
