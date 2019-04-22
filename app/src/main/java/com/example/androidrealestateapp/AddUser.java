@@ -65,6 +65,7 @@ public class AddUser extends AppCompatActivity {
             Fname.setText(splitName[0]);
             Lname.setText(splitName[1]);
         }
+
         Phone.setText(user.getPhoneNumber());
 
         confirm.setOnClickListener(v->{
@@ -109,7 +110,7 @@ public class AddUser extends AppCompatActivity {
                      // the mysql insert statement
                      String query = "Insert into Users (email,firstname,lastname,phone) values ('"+addEmail+"','"+addFName+"','"+addLName+"','"+phoneNum+"');";
 
-                     stmt.executeQuery(query);
+                     stmt.executeUpdate(query);
 
                      conn.close();
                  }

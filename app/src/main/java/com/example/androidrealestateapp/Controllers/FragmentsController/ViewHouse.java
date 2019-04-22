@@ -1,9 +1,11 @@
 package com.example.androidrealestateapp.Controllers.FragmentsController;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -89,7 +91,6 @@ public class ViewHouse extends AppCompatActivity {
             if (conn == null) {
                 success = false;
             } else {
-                // Change below query according to your own database.
                 String resetQuery = "SELECT * FROM Listing WHERE PropertyID = " + String.valueOf(houseID) + ";";
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(resetQuery);
@@ -144,6 +145,21 @@ public class ViewHouse extends AppCompatActivity {
         } catch (Exception e) {
             //make a toast
         }
+
+        Address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Finding the address through google maps
+                 **/
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+Address.getText().toString());//1600 Amphitheatre Parkway, Mountain+View, California");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
 
         if(!manageHouse)
         {
@@ -210,7 +226,7 @@ public class ViewHouse extends AppCompatActivity {
             modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //add code to modify house info
                 }
             });
         }

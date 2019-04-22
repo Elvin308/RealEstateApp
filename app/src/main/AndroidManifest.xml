@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Controllers.FragmentsController.ViewHouse" />
         <activity android:name=".AddUser" />
+        <activity android:name=".ChangeUser"/>
         <activity
             android:name=".Controllers.MainViewController.Navigation"
             android:label="@string/title_activity_navigation"

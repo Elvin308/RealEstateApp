@@ -385,12 +385,12 @@ public class List_of_Houses extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder
         {
             // public image title and image url
-            public TextView addressHolder;
-            public TextView priceValue;
-            public TextView additionalInfo;
-            public ImageView imageView;
-            public TextView listing;
-            public View layout;
+            TextView addressHolder;
+            TextView priceValue;
+            TextView additionalInfo;
+            ImageView imageView;
+            TextView listing;
+            View layout;
 
             public ViewHolder(View v)
             {

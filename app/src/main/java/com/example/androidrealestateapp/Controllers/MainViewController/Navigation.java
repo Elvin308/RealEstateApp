@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidrealestateapp.AddUser;
+import com.example.androidrealestateapp.ChangeUser;
 import com.example.androidrealestateapp.Controllers.AddHouseController.add_house_listing;
 import com.example.androidrealestateapp.Controllers.FragmentsController.List_of_Houses;
 import com.example.androidrealestateapp.Controllers.FragmentsController.ManageHouse;
@@ -108,7 +110,7 @@ public class Navigation extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_Profile) {
-            return true;
+            startActivity(new Intent(Navigation.this, ChangeUser.class));
         }
         if(id == R.id.action_logOut)
         {
