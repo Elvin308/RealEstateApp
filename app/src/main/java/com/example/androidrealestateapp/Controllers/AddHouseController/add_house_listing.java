@@ -1,8 +1,10 @@
 package com.example.androidrealestateapp.Controllers.AddHouseController;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -32,9 +34,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import static android.app.Activity.RESULT_OK;
 
 public class add_house_listing extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -47,8 +53,8 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
 
 
-    //temptry
     private static final int pic_id = 123;
+
 
     @Nullable
     @Override
@@ -109,6 +115,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case 0:
+                        /*
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.putExtra(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -118,18 +125,21 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         //File pic = intent.getExtras().getParcelable("data");
                         //AddPicture.setImageBitmap(BitmapFactory.decodeFile(pic.getName()));
                         //AddPicture.setImageBitmap(housepic);
+                        */
+
+                        Intent gallery_intent = new Intent(Intent.ACTION_PICK);
+                        gallery_intent.setType("image/*");
+                        startActivityForResult(gallery_intent, pic_id);
+                        //startActivityForResult(Intent.createChooser(gallery_intent, "Select Picture"), pic_id);
 
                         return true;
 
                     case 1:
 
-                        //Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //temptry
-
 
                         Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(camera_intent, pic_id);
-                        //AddPicture.setImageBitmap(photo);
+
 
                         return true;
                 }
@@ -200,7 +210,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
                         bundle.putString("ListingType", rentSale.getSelectedItem().toString());
                         bundle.putString("Email", user.getEmail());
-                        bundle.putParcelable("housepic",housepic);
+                        bundle.putParcelable("housepic", photo);
 
 
                         Fragment fragment = new add_house_listing2();
@@ -244,7 +254,6 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         });
         return view;
     }
-    //temp try
 
     public void onActivityResult(int requestCode,
                                  int resultCode,
@@ -256,8 +265,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
             // BitMap is data structure of image file
             // which stor the image in memory
-            photo = (Bitmap)data.getExtras()
-                    .get("data");
+            photo = (Bitmap)data.getExtras().get("data");
 
             // Set the image in imageview for display
             AddPicture.setImageBitmap(photo);
