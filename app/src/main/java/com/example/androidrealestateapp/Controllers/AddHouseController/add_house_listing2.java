@@ -153,7 +153,7 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
                                 distributionStr + "');";
 
 
-                        stmt.executeQuery(query);
+                        stmt.executeUpdate(query);
 
                         String pictureQuery = "insert into houePictures(PropertyID,Pic) ";
 

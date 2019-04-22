@@ -150,7 +150,7 @@ public class List_of_Houses extends Fragment {
                         } else {
                             // Change below query according to your own database.
                             user = FirebaseAuth.getInstance().getCurrentUser();
-                            String resetQuery = "SELECT TOP 100 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
+                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery(resetQuery);
                             if (rs != null) {
@@ -442,7 +442,7 @@ public class List_of_Houses extends Fragment {
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()));
+                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
                 //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
             });
         }

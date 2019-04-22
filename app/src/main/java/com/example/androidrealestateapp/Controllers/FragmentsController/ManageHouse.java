@@ -222,7 +222,7 @@ public class ManageHouse extends Fragment {
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()));
+                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("Manage",true));
                 //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
             });
 
