@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.MainViewController;
 
 import android.net.Uri;
 import android.content.Intent;
@@ -17,6 +17,12 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidrealestateapp.Controllers.AddHouseController.add_house_listing;
+import com.example.androidrealestateapp.Controllers.FragmentsController.List_of_Houses;
+import com.example.androidrealestateapp.Controllers.FragmentsController.ManageHouse;
+import com.example.androidrealestateapp.Controllers.FragmentsController.RequestList;
+import com.example.androidrealestateapp.Models.CircleTransform;
+import com.example.androidrealestateapp.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -165,7 +171,21 @@ public class Navigation extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_ViewRequest) {
-
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("RequestList");
+            Bundle bundleManageHouse = new Bundle();
+            bundleManageHouse.putString("UserEmail",user.getEmail().toLowerCase());
+            if (fragmentA == null) {
+                Fragment newFrag = new RequestList();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"RequestList").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                Fragment newFrag = new RequestList();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"RequestList").addToBackStack(null).commit();
+            }
         } else if (id == R.id.nav_Statistics) {
 
         } else if (id == R.id.nav_Favorites) {

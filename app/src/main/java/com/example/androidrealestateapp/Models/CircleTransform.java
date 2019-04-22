@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Models;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;

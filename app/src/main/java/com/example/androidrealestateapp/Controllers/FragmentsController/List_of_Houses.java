@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.FragmentsController;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +25,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.Models.HouseClass;
+import com.example.androidrealestateapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -150,7 +150,7 @@ public class List_of_Houses extends Fragment {
                         } else {
                             // Change below query according to your own database.
                             user = FirebaseAuth.getInstance().getCurrentUser();
-                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
+                            String resetQuery = "SELECT TOP 100 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"';";
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery(resetQuery);
                             if (rs != null) {

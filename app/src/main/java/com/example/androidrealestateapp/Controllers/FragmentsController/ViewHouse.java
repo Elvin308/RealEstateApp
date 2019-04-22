@@ -1,18 +1,17 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.FragmentsController;
 
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.Models.HouseClass;
+import com.example.androidrealestateapp.R;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

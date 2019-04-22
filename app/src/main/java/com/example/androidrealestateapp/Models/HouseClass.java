@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Models;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

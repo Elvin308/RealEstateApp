@@ -1,11 +1,8 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.FragmentsController;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +14,13 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.Models.HouseClass;
+import com.example.androidrealestateapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.PrintWriter;

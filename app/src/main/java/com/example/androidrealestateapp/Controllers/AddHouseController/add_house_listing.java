@@ -1,11 +1,7 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.AddHouseController;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -13,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,12 +23,13 @@ import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

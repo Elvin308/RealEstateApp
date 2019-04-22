@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Models;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;

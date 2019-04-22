@@ -1,13 +1,15 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.MainViewController;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.example.androidrealestateapp.AddUser;
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -1,4 +1,4 @@
-package com.example.androidrealestateapp;
+package com.example.androidrealestateapp.Controllers.AddHouseController;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,15 +17,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.androidrealestateapp.Models.ConnectionClass;
+import com.example.androidrealestateapp.R;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class add_house_listing2 extends Fragment implements AdapterView.OnItemSelectedListener{
     @Nullable
