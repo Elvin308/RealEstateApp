@@ -19,12 +19,14 @@
 
         <ImageButton
             android:id="@+id/ADDHouse"
-            android:layout_width="358dp"
+            android:layout_width="350dp"
             android:layout_height="170dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/picture_of_house"
             android:src="@drawable/housepic" />
+
 
         <TextView
             android:layout_width="match_parent"

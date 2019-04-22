@@ -2,6 +2,7 @@ package com.example.androidrealestateapp.Controllers.AddHouseController;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -39,6 +41,14 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
     FirebaseUser user;
     View view;
     Bitmap housepic;
+
+    Bitmap photo;
+    ImageButton AddPicture;
+
+
+
+    //temptry
+    private static final int pic_id = 123;
 
     @Nullable
     @Override
@@ -85,8 +95,10 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         EditText price = view.findViewById(R.id.EnterPrice);
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
 
-        ImageButton AddPicture = (ImageButton) view.findViewById(R.id.ADDHouse);
+        AddPicture = (ImageButton) view.findViewById(R.id.ADDHouse);
         final PopupMenu dropDownMenu = new PopupMenu(getContext(), AddPicture);
+
+
 
         final Menu menu = dropDownMenu.getMenu();
         menu.add(0, 0, 0, "Camera roll");
@@ -101,21 +113,23 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         intent.setType("image/*");
                         intent.putExtra(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                         //intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
-                        housepic = intent.getExtras().getParcelable("data");
-
-                        AddPicture.setImageBitmap(housepic);
+                        //startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
+                        //housepic = intent.getExtras().getParcelable("data");
+                        //File pic = intent.getExtras().getParcelable("data");
+                        //AddPicture.setImageBitmap(BitmapFactory.decodeFile(pic.getName()));
+                        //AddPicture.setImageBitmap(housepic);
 
                         return true;
 
                     case 1:
 
-                        Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //startActivityForResult(photoCaptureIntent);
-                        //Bitmap housepiccam = (Bitmap)data.getExtras().get("data");
-                        //AddPicture.setImageBitmap(housepiccam);
+                        //Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //temptry
 
 
+                        Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(camera_intent, pic_id);
+                        //AddPicture.setImageBitmap(photo);
 
                         return true;
                 }
@@ -230,6 +244,27 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         });
         return view;
     }
+    //temp try
+
+    public void onActivityResult(int requestCode,
+                                 int resultCode,
+                                 Intent data)
+    {
+
+        // Match the request 'pic id with requestCode
+        if (requestCode == pic_id) {
+
+            // BitMap is data structure of image file
+            // which stor the image in memory
+            photo = (Bitmap)data.getExtras()
+                    .get("data");
+
+            // Set the image in imageview for display
+            AddPicture.setImageBitmap(photo);
+
+        }
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -239,6 +274,4 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
-
-
 }

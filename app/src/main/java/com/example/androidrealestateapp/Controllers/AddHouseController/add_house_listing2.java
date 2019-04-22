@@ -155,7 +155,7 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                         stmt.executeUpdate(query);
 
-                        String pictureQuery = "insert into houePictures(PropertyID,Pic) ";
+                        String pictureQuery = "insert into housePictures(PropertyID,Pic) ";
 
                         pictureQuery += "VALUES (87, '" + bundle.getParcelable("housepic") + "');";
 
