@@ -318,7 +318,7 @@ public class List_of_Houses extends Fragment {
                         else {
                             // Change below query according to your own database.
                             user = FirebaseAuth.getInstance().getCurrentUser();
-                            String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"' ORDER BY NEWID();";
+                            String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"' AND enddate IS NULL ORDER BY NEWID();";
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery(query);
                             if (rs != null) // if resultset not null, I add items to itemArraylist using class created

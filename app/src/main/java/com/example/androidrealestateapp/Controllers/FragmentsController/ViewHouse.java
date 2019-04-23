@@ -1,11 +1,14 @@
 package com.example.androidrealestateapp.Controllers.FragmentsController;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +27,10 @@ import com.example.androidrealestateapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.ref.WeakReference;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +43,9 @@ public class ViewHouse extends AppCompatActivity {
     private boolean success = false; // boolean
     String address;
     String email;
+    int houseID;
+    String userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +53,9 @@ public class ViewHouse extends AppCompatActivity {
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.appColor)));
 
-        int houseID = getIntent().getIntExtra("PropertyId",0);
-        String userEmail = getIntent().getStringExtra("UserEmail");
-        boolean manageHouse = getIntent().getBooleanExtra("Manage",false);
+        houseID = getIntent().getIntExtra("PropertyId",0);
+        userEmail = getIntent().getStringExtra("UserEmail");
+        boolean manageHouse = getIntent().getBooleanExtra("Manage",true);
 
         //connection to database variable
         connectionClass = new ConnectionClass(); // Connection Class Initialization
@@ -64,7 +74,21 @@ public class ViewHouse extends AppCompatActivity {
         ImageView Image = findViewById(R.id.image);
         Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").resize(width,newHeight).into(Image);
 
-        //variables for textViews
+
+        ImageView favorite = findViewById(R.id.favorite);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewHouse.CheckFavorite checkFavorite = new CheckFavorite(ViewHouse.this);
+                checkFavorite.execute();
+                //favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);
+                //favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
+            }
+        });
+
+
+
+        //connect to database
         TextView year = (TextView)findViewById(R.id.YearText);
         TextView garage = (TextView)findViewById(R.id.GargeText);
         TextView lot = (TextView)findViewById(R.id.LotText);
@@ -83,9 +107,6 @@ public class ViewHouse extends AppCompatActivity {
         TextView Address = findViewById(R.id.AddressText);
         TextView SaleRentText = findViewById(R.id.SaleRentText);
 
-
-
-        //connect to database
         try {
             Connection conn = connectionClass.CONN(); //Connection Object
             if (conn == null) {
@@ -100,24 +121,22 @@ public class ViewHouse extends AppCompatActivity {
 
                         double amount = rs.getDouble("Price");
                         DecimalFormat formatter = new DecimalFormat("#,###.00");
-                        String price= "$"+formatter.format(amount);
+                        String price = "$" + formatter.format(amount);
                         Price.setText(price);
 
-                        String quickInfo = String.valueOf(rs.getDouble("NumOfFloors"))+ " Floors | "+String.valueOf(rs.getDouble("NumOfBed"))+ " Beds | "+String.valueOf(rs.getDouble("NumOfBath"))+ " Baths ";
+                        String quickInfo = String.valueOf(rs.getDouble("NumOfFloors")) + " Floors | " + String.valueOf(rs.getDouble("NumOfBed")) + " Beds | " + String.valueOf(rs.getDouble("NumOfBath")) + " Baths ";
                         QuickInfo.setText(quickInfo);
 
                         email = rs.getString("Email");
 
-                        address = rs.getString("StreetName")+", "+rs.getString("City")+", "+rs.getString("State")+", "+rs.getString("Zipcode");
+                        address = rs.getString("StreetName") + ", " + rs.getString("City") + ", " + rs.getString("State") + ", " + rs.getString("Zipcode");
                         Address.setText(address);
 
-                        String saleRentText="";
-                        if(rs.getString("ListingType").equals("Selling"))
-                        {
-                            saleRentText="  House for Sale";
-                        }
-                        else {
-                            saleRentText="  House for Rent";
+                        String saleRentText = "";
+                        if (rs.getString("ListingType").equals("Selling")) {
+                            saleRentText = "  House for Sale";
+                        } else {
+                            saleRentText = "  House for Rent";
                         }
                         SaleRentText.setText(saleRentText);
 
@@ -125,14 +144,14 @@ public class ViewHouse extends AppCompatActivity {
                         garage.setText(String.valueOf(rs.getDouble("NumOfGarages")));
                         Size.setText(rs.getString("SqFt"));
                         lot.setText(rs.getString("LotSize"));
-                        air.setText((rs.getBoolean("AirCondition"))?"Yes":"No");
-                        pool.setText((rs.getBoolean("Pool"))?"Yes":"No");
+                        air.setText((rs.getBoolean("AirCondition")) ? "Yes" : "No");
+                        pool.setText((rs.getBoolean("Pool")) ? "Yes" : "No");
                         heat.setText(rs.getString("HeatingSystem"));
-                        beach.setText((rs.getBoolean("BeachHouse"))?"Yes":"No");
-                        basement.setText((rs.getBoolean("Basement"))?"Yes":"No");
-                        mainST.setText((rs.getBoolean("MainStHouse"))?"Yes":"No");
-                        fire.setText((rs.getBoolean("Fireplace"))?"Yes":"No");
-                        rent.setText((rs.getBoolean("RentSpace"))?"Yes":"No");
+                        beach.setText((rs.getBoolean("BeachHouse")) ? "Yes" : "No");
+                        basement.setText((rs.getBoolean("Basement")) ? "Yes" : "No");
+                        mainST.setText((rs.getBoolean("MainStHouse")) ? "Yes" : "No");
+                        fire.setText((rs.getBoolean("Fireplace")) ? "Yes" : "No");
+                        rent.setText((rs.getBoolean("RentSpace")) ? "Yes" : "No");
                         distSytem.setText(rs.getString("DistributionSystem"));
 
                     } catch (Exception ex) {
@@ -145,6 +164,7 @@ public class ViewHouse extends AppCompatActivity {
         } catch (Exception e) {
             //make a toast
         }
+
 
         Address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,30 +210,9 @@ public class ViewHouse extends AppCompatActivity {
                             int PropertyID=houseID;
                             String values="'"+reciever+"','"+sender+"',"+PropertyID+",'"+theMessage+"'";
 
-
-                            try
-                            {
-
-                                ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
-                                Connection conn = (Connection) connectionClass.CONN(); //Connection Object
-                                Statement stmt = conn.createStatement();
-                                String query = "INSERT INTO Request(REmail,SEmail,PropertyID,Message) VALUES("+values+");";
-
-
-                                stmt.executeUpdate(query);
-
-                                conn.close();
-
-                                Toast.makeText(v.getContext(), "Message Sent", Toast.LENGTH_SHORT).show();
-                                RequestDialog.cancel();
-
-                            }
-                            catch (SQLException e)
-                            {
-                                Toast.makeText(v.getContext(), "You already sent a message before, please wait for a call back", Toast.LENGTH_LONG).show();
-                                RequestDialog.cancel();
-                                Log.e("ERORR",e.getMessage());
-                            }
+                            ViewHouse.SendRequest sendRequest = new SendRequest(ViewHouse.this);
+                            sendRequest.execute(values);
+                            RequestDialog.cancel();
                         }
                     });
                 }
@@ -237,4 +236,126 @@ public class ViewHouse extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
+    private class CheckFavorite extends AsyncTask<String, String, String> {
+        ProgressDialog progress;
+        String reply = "Not Found";
+
+        private WeakReference<Context> contextReference;
+        CheckFavorite(Context context) {
+            contextReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+            //progress = ProgressDialog.show(ViewHouse.this, "Synchronising", "RecyclerView Loading! Please Wait...", true);
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Connection conn = connectionClass.CONN(); //Connection Object
+                if (conn == null) {
+                    success = false;
+                } else {
+                    String resetQuery = "SELECT * FROM Favorites where email ='" + userEmail + "' and propertyId = " + houseID + ";";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(resetQuery);
+                    if (rs.next()) {
+                        String query2 = "DELETE FROM Favorites WHERE email='" + userEmail + "' AND PropertyID =" + houseID + ";";
+                        Statement stmt2 = conn.createStatement();
+                        stmt2.executeUpdate(query2);
+                        reply = "Found";
+                    } else {
+                        String query2 = "INSERT INTO Favorites(Email,PropertyID) VALUES ('" + userEmail + "'," + houseID + ");";
+                        Statement stmt2 = conn.createStatement();
+                        stmt2.executeUpdate(query2);
+                        reply = "Not Found";
+                    }
+                }
+            } catch (Exception e) {
+                reply = "Not Found";
+            }
+
+            return reply;
+        }
+        @Override
+        protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
+        {
+            AppCompatActivity context = (AppCompatActivity) contextReference.get();
+            if(context != null) {
+                ImageView favorite = context.findViewById(R.id.favorite);
+                if(reply.equals("Not Found"))
+                {
+                    favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);
+                }
+                else
+                {
+                    favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
+                }
+
+            }
+            // progress.dismiss();
+        }
+    }
+
+
+
+    private class SendRequest extends AsyncTask<String, String, String> {
+        ProgressDialog progress;
+        Boolean completed = false;
+
+
+        private WeakReference<Context> contextReference;
+        SendRequest(Context context) {
+            contextReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+            //progress = ProgressDialog.show(ViewHouse.this, "Synchronising", "RecyclerView Loading! Please Wait...", true);
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String values = strings[0];
+            try
+            {
+                ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
+                Connection conn = (Connection) connectionClass.CONN(); //Connection Object
+                Statement stmt = conn.createStatement();
+                String query = "INSERT INTO Request(REmail,SEmail,PropertyID,Message) VALUES("+values+");";
+
+                stmt.executeUpdate(query);
+
+                conn.close();
+
+                completed = true;
+            }
+            catch (SQLException e)
+            {
+                completed = false;
+                Log.e("ERORR",e.getMessage());
+            }
+
+            return "Completed";
+        }
+        @Override
+        protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
+        {
+            AppCompatActivity context = (AppCompatActivity) contextReference.get();
+            if(context != null) {
+               if(completed)
+               {
+                   Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show();
+               }
+               else
+               {
+                   Toast.makeText(context, "You already sent a message before, please wait for a call back", Toast.LENGTH_LONG).show();
+               }
+            }
+            // progress.dismiss();
+        }
+    }
+
 }
