@@ -42,9 +42,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class List_of_Houses extends Fragment {
+public class List_of_Old_Houses extends Fragment {
     private ArrayList<HouseClass> itemArrayList;  //List items Array
-    private List_of_Houses.MyAppAdapter myAppAdapter; //Array Adapter
+    private List_of_Old_Houses.MyAppAdapter myAppAdapter; //Array Adapter
     private RecyclerView recyclerView; //RecyclerView
     private RecyclerView.LayoutManager mLayoutManager;
     private boolean success = false; // boolean
@@ -79,7 +79,7 @@ public class List_of_Houses extends Fragment {
         itemArrayList = new ArrayList<HouseClass>(); // Arraylist Initialization
 
         // Calling Async Task
-        List_of_Houses.SyncData orderData = new List_of_Houses.SyncData();
+        List_of_Old_Houses.SyncData orderData = new List_of_Old_Houses.SyncData();
         orderData.execute("");
 
         filters.setOnClickListener( v ->{
@@ -92,6 +92,8 @@ public class List_of_Houses extends Fragment {
             filterDialog.show();
             filterDialog.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+            TextView priceLabel = filterDialog.findViewById(R.id.range);
+            priceLabel.setText("End Price:");
             Spinner bathroom =filterDialog.findViewById(R.id.filterBathroom);
             Spinner bedroom =filterDialog.findViewById(R.id.filterBedroom);
             Spinner garage =filterDialog.findViewById(R.id.filterGarage);
@@ -150,13 +152,13 @@ public class List_of_Houses extends Fragment {
                         } else {
                             // Change below query according to your own database.
                             user = FirebaseAuth.getInstance().getCurrentUser();
-                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE enddate IS NULL AND email <> '"+user.getEmail()+"';";
+                            String resetQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,PriceSold,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE enddate IS NOT NULL;";
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery(resetQuery);
                             if (rs != null) {
                                 while (rs.next()) {
                                     try {
-                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"),rs.getDouble("NumOfFloors"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
+                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("PriceSold"),rs.getDouble("NumOfFloors"), rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                     }
@@ -187,8 +189,7 @@ public class List_of_Houses extends Fragment {
                     String bedNum=removeLastChar(bedroom.getSelectedItem().toString());
                     String garageNum=removeLastChar(garage.getSelectedItem().toString());
                     String floorNum=removeLastChar(floor.getSelectedItem().toString());
-                    String modifyQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE enddate IS NULL AND email <> '"+user.getEmail()+
-                            "' AND NumOfBath >= '"+bathNum+"' AND NumOfBed >= '"+bedNum+"' AND NumOfGarages >= '"+garageNum+"'  AND NumOfFloors >= '"+floorNum+"' ";
+                    String modifyQuery = "SELECT PropertyID, StreetName,City,State,Zipcode,PriceSold,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE enddate IS NOT NULL AND NumOfBath >= '"+bathNum+"' AND NumOfBed >= '"+bedNum+"' AND NumOfGarages >= '"+garageNum+"'  AND NumOfFloors >= '"+floorNum+"' ";
                     String Searchzip= zip.getText().toString().trim();
                     String minNum = min.getText().toString().trim();
                     String maxNum = max.getText().toString().trim();
@@ -224,7 +225,7 @@ public class List_of_Houses extends Fragment {
                     {
                         if(isNumberMin)
                         {
-                            modifyQuery+=" AND price >= '"+minNum+"' ";
+                            modifyQuery+=" AND PriceSold >= '"+minNum+"' ";
                             continueWithQuery = true;
                         }
                         else
@@ -237,7 +238,7 @@ public class List_of_Houses extends Fragment {
                     {
                         if(isNumberMax)
                         {
-                            modifyQuery+=" AND price <= '"+maxNum+"' ";
+                            modifyQuery+=" AND PriceSold <= '"+maxNum+"' ";
                             continueWithQuery = true;
                         }
                         else
@@ -266,7 +267,7 @@ public class List_of_Houses extends Fragment {
                                 if (rs != null) {
                                     while (rs.next()) {
                                         try {
-                                            itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
+                                            itemArrayList.add(new HouseClass(rs.getInt("PropertyId"), rs.getString("StreetName"), rs.getString("City"), rs.getString("State"), rs.getString("Zipcode"), rs.getDouble("PriceSold"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"), rs.getDouble("NumOfBath"), rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
                                         } catch (Exception ex) {
                                             ex.printStackTrace();
                                         }
@@ -301,7 +302,7 @@ public class List_of_Houses extends Fragment {
         @Override
         protected void onPreExecute() //Starts the progress dailog
         {
-            progress = ProgressDialog.show(List_of_Houses.this.getContext(), "Synchronising",
+            progress = ProgressDialog.show(List_of_Old_Houses.this.getContext(), "Synchronising",
                     "RecyclerView Loading! Please Wait...", true);
         }
 
@@ -309,34 +310,34 @@ public class List_of_Houses extends Fragment {
         protected String doInBackground(String... strings)  // Connect to the database, write query and add items to array list
         {
             try
+            {
+                Connection conn = connectionClass.CONN(); //Connection Object
+                if (conn == null)
+                {
+                    success = false;
+                }
+                else {
+                    // Change below query according to your own database.
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,PriceSold,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType, Enddate FROM Listing WHERE enddate IS NOT NULL ORDER BY NEWID();";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    if (rs != null) // if resultset not null, I add items to itemArraylist using class created
                     {
-                        Connection conn = connectionClass.CONN(); //Connection Object
-                        if (conn == null)
+                        while (rs.next())
                         {
-                            success = false;
-                        }
-                        else {
-                            // Change below query according to your own database.
-                            user = FirebaseAuth.getInstance().getCurrentUser();
-                            String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE email <> '"+user.getEmail()+"' AND enddate IS NULL ORDER BY NEWID();";
-                            Statement stmt = conn.createStatement();
-                            ResultSet rs = stmt.executeQuery(query);
-                            if (rs != null) // if resultset not null, I add items to itemArraylist using class created
-                            {
-                                while (rs.next())
-                                {
-                                    try {
-                                        itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("Price"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType")));
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-                                msg = "Found";
-                                success = true;
-                            } else {
-                                msg = "No Data found!";
-                                success = false;
+                            try {
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("PriceSold"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType"),rs.getString("Enddate")));
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
                             }
+                        }
+                        msg = "Found";
+                        success = true;
+                    } else {
+                        msg = "No Data found!";
+                        success = false;
+                    }
                 }
             } catch (Exception e)
             {
@@ -353,7 +354,7 @@ public class List_of_Houses extends Fragment {
         protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
         {
             progress.dismiss();
-            //Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(List_of_Old_Houses.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
             if (success == false)
             {
             }
@@ -362,7 +363,7 @@ public class List_of_Houses extends Fragment {
                 {
                     if(myAppAdapter==null)
                     {
-                        myAppAdapter = new List_of_Houses.MyAppAdapter(itemArrayList , List_of_Houses.this);
+                        myAppAdapter = new List_of_Old_Houses.MyAppAdapter(itemArrayList , List_of_Old_Houses.this);
                     }
                     else
                     {
@@ -378,7 +379,7 @@ public class List_of_Houses extends Fragment {
         }
     }
 
-    public class MyAppAdapter extends RecyclerView.Adapter<List_of_Houses.MyAppAdapter.ViewHolder> {
+    public class MyAppAdapter extends RecyclerView.Adapter<List_of_Old_Houses.MyAppAdapter.ViewHolder> {
         private List<HouseClass> values;
         public Context context;
 
@@ -390,6 +391,7 @@ public class List_of_Houses extends Fragment {
             TextView additionalInfo;
             ImageView imageView;
             TextView listing;
+            TextView enddate;
             View layout;
 
             public ViewHolder(View v)
@@ -401,11 +403,12 @@ public class List_of_Houses extends Fragment {
                 priceValue =  v.findViewById(R.id.price);
                 additionalInfo = v.findViewById(R.id.additional);
                 listing = v.findViewById(R.id.Listing);
+                enddate = v.findViewById(R.id.date);
             }
         }
 
         // Constructor
-        public MyAppAdapter(ArrayList<HouseClass> myDataset, List_of_Houses context)
+        public MyAppAdapter(ArrayList<HouseClass> myDataset, List_of_Old_Houses context)
         {
             values = myDataset;
             this.context = context.getContext();
@@ -413,18 +416,18 @@ public class List_of_Houses extends Fragment {
 
         // Create new views (invoked by the layout manager) and inflates
         @Override
-        public List_of_Houses.MyAppAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public List_of_Old_Houses.MyAppAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             // create a new view
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View v = inflater.inflate(R.layout.list_content, parent, false);
-            List_of_Houses.MyAppAdapter.ViewHolder vh = new List_of_Houses.MyAppAdapter.ViewHolder(v);
+            View v = inflater.inflate(R.layout.old_list_content, parent, false);
+            List_of_Old_Houses.MyAppAdapter.ViewHolder vh = new List_of_Old_Houses.MyAppAdapter.ViewHolder(v);
             return vh;
         }
 
         // Binding items to the view
         @Override
-        public void onBindViewHolder(List_of_Houses.MyAppAdapter.ViewHolder holder, final int position) {
+        public void onBindViewHolder(List_of_Old_Houses.MyAppAdapter.ViewHolder holder, final int position) {
 
             final HouseClass HouseClass = values.get(position);
             String houseAdress= HouseClass.getStreetName()+", "+HouseClass.getCity()+", "+HouseClass.getState()+", "+HouseClass.getZipCode();
@@ -432,21 +435,23 @@ public class List_of_Houses extends Fragment {
             double amount = HouseClass.getPrice();
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             String price= "$"+formatter.format(amount);
+            String Listing =HouseClass.getListingType();
+            String finalEndDate =HouseClass.getEnddate();
 
             String additonal = "Floors: "+HouseClass.getNumOfFloors()+"     Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
             holder.addressHolder.setText(houseAdress);
-            holder.priceValue.setText(price);
+            holder.priceValue.setText("    For "+ price);
+            holder.enddate.setText("    On "+ finalEndDate);
             holder.additionalInfo.setText(additonal);
-            holder.listing.setText(HouseClass.getListingType());
+            holder.listing.setText(Listing);
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
-                //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
+                Toast.makeText(getContext(), "Under Construction", Toast.LENGTH_SHORT).show();
             });
         }
-
         // get item count returns the list item count
         @Override
         public int getItemCount() {

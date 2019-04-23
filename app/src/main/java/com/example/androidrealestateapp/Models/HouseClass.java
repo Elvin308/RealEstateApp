@@ -41,6 +41,7 @@ public class HouseClass
     public int YearBuilt = 0000;
     public String HeatingSystem = "null";
     public String DistributionSystem = "null";
+    public String Enddate = "null";
 
     public HouseClass(String email, int propertyID, String streetName, String city, String state, String zipCode, Double price, Double numOfFloors, Double numOfBath, Double numOfBed, Double numOfGarages, String listingType, boolean fireplace, boolean basement, boolean mainStHouse, boolean pool, boolean beachHouse, boolean airCondition, boolean rentSpace, String sqFt, String lotSize, int yearBuilt, String heatingSystem, String distributionSystem) {
         Email = email;
@@ -81,6 +82,21 @@ public class HouseClass
         this.NumOfBath = numOfBath;
         this.NumOfGarages = numOfGarages;
         this.ListingType=listingType;
+    }
+
+    public HouseClass(int propertyID, String streetName, String city, String state, String zipcode, double price, double numOfFloors, double numOfBed, double numOfBath, double numOfGarages,String listingType,String enddate) {
+        this.PropertyID = propertyID;
+        this.StreetName = streetName;
+        this.City = city;
+        this.State = state;
+        this.ZipCode = zipcode;
+        this.Price = price;
+        this.NumOfFloors=numOfFloors;
+        this.NumOfBed = numOfBed;
+        this.NumOfBath = numOfBath;
+        this.NumOfGarages = numOfGarages;
+        this.ListingType=listingType;
+        this.Enddate=enddate;
     }
 
     public void addHouseInfo( int propertyID, String streetName, String city, String state, String zipCode, Double price, Double numOfFloors, Double numOfBath, Double numOfBed, Double numOfGarages, String listingType, boolean fireplace, boolean basement, boolean mainStHouse, boolean pool, boolean beachHouse, boolean airCondition, boolean rentSpace, String sqFt, String lotSize, int yearBuilt, String heatingSystem, String distributionSystem) {
@@ -141,6 +157,9 @@ public class HouseClass
     public int getYearBuilt() {return YearBuilt;}
     public String getHeatingSystem() {return HeatingSystem;}
     public String getDistributionSystem() {return DistributionSystem;}
+    public String getEnddate() {return Enddate;}
+
+
 
     //set methods
     public void setPropertyID(int PropertyID) {this.PropertyID = PropertyID;}
@@ -167,4 +186,5 @@ public class HouseClass
     public void setYearBuilt(int YearBuilt) {this.YearBuilt = YearBuilt;}
     public void setHeatingSystem(String HeatingSystem) {this.HeatingSystem = HeatingSystem;}
     public void setDistributionSystem(String DistributionSystem) {this.DistributionSystem = DistributionSystem;}
+    public void setEnddate(String enddate) { Enddate = enddate; }
 }

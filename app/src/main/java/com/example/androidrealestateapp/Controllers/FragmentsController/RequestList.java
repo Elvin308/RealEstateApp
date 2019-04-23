@@ -249,7 +249,7 @@ public class RequestList extends Fragment {
                 ViewProperty.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",RequestClass.getPropertyID()));
+                        startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",RequestClass.getPropertyID()));
                     }
                 });
 
@@ -272,7 +272,6 @@ public class RequestList extends Fragment {
             });
 
         }
-
 
         // get item count returns the list item count
         @Override

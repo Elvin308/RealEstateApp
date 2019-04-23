@@ -23,6 +23,7 @@ import com.example.androidrealestateapp.ChangeUser;
 import com.example.androidrealestateapp.Controllers.AddHouseController.add_house_listing;
 import com.example.androidrealestateapp.Controllers.FragmentsController.FavoriteList;
 import com.example.androidrealestateapp.Controllers.FragmentsController.List_of_Houses;
+import com.example.androidrealestateapp.Controllers.FragmentsController.List_of_Old_Houses;
 import com.example.androidrealestateapp.Controllers.FragmentsController.ManageHouse;
 import com.example.androidrealestateapp.Controllers.FragmentsController.RequestList;
 import com.example.androidrealestateapp.Models.CircleTransform;
@@ -190,10 +191,16 @@ public class Navigation extends AppCompatActivity
                 newFrag.setArguments(bundleManageHouse);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"RequestList").addToBackStack(null).commit();
             }
-        } else if (id == R.id.nav_Statistics) {
-            /**NEED TO ADD FUNCTIONALITY*/
-            Toast.makeText(this, "Currently not available", Toast.LENGTH_SHORT).show();
-
+        } else if (id == R.id.nav_SoldRented) {
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("ListOldHouses");
+            if (fragmentA == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new List_of_Old_Houses(),"ListOldHouses").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new List_of_Old_Houses(),"ListOldHouses").addToBackStack(null).commit();
+            }
         } else if (id == R.id.nav_Favorites) {
             Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("FavoriteList");
             Bundle bundleManageHouse = new Bundle();

@@ -26,9 +26,9 @@
     <item android:title="Others">
         <menu>
             <item
-                android:id="@+id/nav_Statistics"
+                android:id="@+id/nav_SoldRented"
                 android:icon="@drawable/ic_baseline_assessment_24px"
-                android:title="Show Statistics" />
+                android:title="Show Sold/Rented" />
             <item
                 android:id="@+id/nav_Favorites"
                 android:icon="@drawable/ic_baseline_favorite_24px"
