@@ -319,7 +319,7 @@ public class List_of_Old_Houses extends Fragment {
                 else {
                     // Change below query according to your own database.
                     user = FirebaseAuth.getInstance().getCurrentUser();
-                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,PriceSold,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType, Enddate FROM Listing WHERE enddate IS NOT NULL ORDER BY NEWID();";
+                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,PriceSold,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType, Enddate,Startdate FROM Listing WHERE enddate IS NOT NULL ORDER BY NEWID();";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -327,7 +327,7 @@ public class List_of_Old_Houses extends Fragment {
                         while (rs.next())
                         {
                             try {
-                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("PriceSold"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType"),rs.getString("Enddate")));
+                                itemArrayList.add(new HouseClass(rs.getInt("PropertyId"),rs.getString("StreetName"),rs.getString("City"),rs.getString("State"),rs.getString("Zipcode"),rs.getDouble("PriceSold"), rs.getDouble("NumOfFloors"),rs.getDouble("NumOfBed"),rs.getDouble("NumOfBath"),rs.getDouble("NumOfGarages"),rs.getString("ListingType"),rs.getString("Enddate"),rs.getString("Startdate")));
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -392,6 +392,7 @@ public class List_of_Old_Houses extends Fragment {
             ImageView imageView;
             TextView listing;
             TextView enddate;
+            TextView startdate;
             View layout;
 
             public ViewHolder(View v)
@@ -404,6 +405,7 @@ public class List_of_Old_Houses extends Fragment {
                 additionalInfo = v.findViewById(R.id.additional);
                 listing = v.findViewById(R.id.Listing);
                 enddate = v.findViewById(R.id.date);
+                startdate = v.findViewById(R.id.date1);
             }
         }
 
@@ -437,19 +439,21 @@ public class List_of_Old_Houses extends Fragment {
             String price= "$"+formatter.format(amount);
             String Listing =HouseClass.getListingType();
             String finalEndDate =HouseClass.getEnddate();
+            String finalStartDate =HouseClass.getEnddate();
 
             String additonal = "Floors: "+HouseClass.getNumOfFloors()+"     Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
             holder.addressHolder.setText(houseAdress);
+            holder.startdate.setText("    Posted on "+HouseClass.getStartdate());
             holder.priceValue.setText("    For "+ price);
-            holder.enddate.setText("    On "+ finalEndDate);
+            holder.enddate.setText("    Finalized on "+ finalEndDate);
             holder.additionalInfo.setText(additonal);
             holder.listing.setText(Listing);
             //Picasso.get().load(HouseClass.getImg()).into(holder.imageView);
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                //startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
                 Toast.makeText(getContext(), "Under Construction", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
             });
         }
         // get item count returns the list item count
