@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidrealestateapp.AddUser;
 import com.example.androidrealestateapp.ChangeUser;
 import com.example.androidrealestateapp.Controllers.AddHouseController.add_house_listing;
+import com.example.androidrealestateapp.Controllers.FragmentsController.FavoriteList;
 import com.example.androidrealestateapp.Controllers.FragmentsController.List_of_Houses;
 import com.example.androidrealestateapp.Controllers.FragmentsController.ManageHouse;
 import com.example.androidrealestateapp.Controllers.FragmentsController.RequestList;
@@ -189,9 +191,25 @@ public class Navigation extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"RequestList").addToBackStack(null).commit();
             }
         } else if (id == R.id.nav_Statistics) {
+            /**NEED TO ADD FUNCTIONALITY*/
+            Toast.makeText(this, "Currently not available", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_Favorites) {
-
+            Fragment fragmentA = getSupportFragmentManager().findFragmentByTag("FavoriteList");
+            Bundle bundleManageHouse = new Bundle();
+            bundleManageHouse.putString("UserEmail",user.getEmail().toLowerCase());
+            if (fragmentA == null) {
+                Fragment newFrag = new FavoriteList();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"FavoriteList").addToBackStack(null).commit();
+            }
+            else{ //fragment exist
+                getSupportFragmentManager().beginTransaction().remove(fragmentA).commitNow();
+                getSupportFragmentManager().popBackStack();
+                Fragment newFrag = new FavoriteList();
+                newFrag.setArguments(bundleManageHouse);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFrag,"FavoriteList").addToBackStack(null).commit();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

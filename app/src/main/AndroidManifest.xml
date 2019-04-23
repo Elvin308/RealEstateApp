@@ -3,6 +3,8 @@
     package="com.example.androidrealestateapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Controllers.FragmentsController.FavoriteList"></activity>
         <activity android:name=".Controllers.FragmentsController.ViewHouse" />
         <activity android:name=".AddUser" />
-        <activity android:name=".ChangeUser"/>
+        <activity android:name=".ChangeUser" />
         <activity
             android:name=".Controllers.MainViewController.Navigation"
             android:label="@string/title_activity_navigation"
@@ -27,8 +30,5 @@
             </intent-filter>
         </activity>
     </application>
-
-<uses-permission android:name="android.permission.SEND_SMS"/>
-<uses-permission android:name="android.permission.CALL_PHONE"/>
 
 </manifest>

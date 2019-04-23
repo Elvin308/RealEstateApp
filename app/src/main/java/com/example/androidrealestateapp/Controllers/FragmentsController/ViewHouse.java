@@ -1,6 +1,8 @@
 package com.example.androidrealestateapp.Controllers.FragmentsController;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
@@ -45,6 +48,8 @@ public class ViewHouse extends AppCompatActivity {
     String email;
     int houseID;
     String userEmail;
+    Boolean returnInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class ViewHouse extends AppCompatActivity {
         houseID = getIntent().getIntExtra("PropertyId",0);
         userEmail = getIntent().getStringExtra("UserEmail");
         boolean manageHouse = getIntent().getBooleanExtra("Manage",true);
+        returnInfo = getIntent().getBooleanExtra("Return",false);
 
         //connection to database variable
         connectionClass = new ConnectionClass(); // Connection Class Initialization
@@ -81,8 +87,6 @@ public class ViewHouse extends AppCompatActivity {
             public void onClick(View v) {
                 ViewHouse.CheckFavorite checkFavorite = new CheckFavorite(ViewHouse.this);
                 checkFavorite.execute();
-                //favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);
-                //favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
             }
         });
 
@@ -165,6 +169,9 @@ public class ViewHouse extends AppCompatActivity {
             //make a toast
         }
 
+        ViewHouse.FirstCheckFavorite firstCheckFavorite = new FirstCheckFavorite(ViewHouse.this);
+        firstCheckFavorite.execute();
+
 
         Address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,10 +228,11 @@ public class ViewHouse extends AppCompatActivity {
         else
         {
             Button modify = findViewById(R.id.OptionButton);
-            modify.setText("Modify");
+            modify.setText("More Options");
             modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Currently not available", Toast.LENGTH_SHORT).show();
                     //add code to modify house info
                 }
             });
@@ -234,7 +242,15 @@ public class ViewHouse extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(returnInfo) {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
+        }
+        else
+        {
+            finish();
+        }
     }
 
     private class CheckFavorite extends AsyncTask<String, String, String> {
@@ -299,6 +315,61 @@ public class ViewHouse extends AppCompatActivity {
         }
     }
 
+    private class FirstCheckFavorite extends AsyncTask<String, String, String> {
+        ProgressDialog progress;
+        String reply = "Not Found";
+
+        private WeakReference<Context> contextReference;
+        FirstCheckFavorite(Context context) {
+            contextReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+            //progress = ProgressDialog.show(ViewHouse.this, "Synchronising", "RecyclerView Loading! Please Wait...", true);
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Connection conn = connectionClass.CONN(); //Connection Object
+                if (conn == null) {
+                    success = false;
+                } else {
+                    String resetQuery = "SELECT * FROM Favorites where email ='" + userEmail + "' and propertyId = " + houseID + ";";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(resetQuery);
+                    if (rs.next()) {
+                        reply = "Found";
+                    } else {
+                        reply = "Not Found";
+                    }
+                }
+            } catch (Exception e) {
+                reply = "Not Found";
+            }
+
+            return reply;
+        }
+        @Override
+        protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
+        {
+            AppCompatActivity context = (AppCompatActivity) contextReference.get();
+            if(context != null) {
+                ImageView favorite = context.findViewById(R.id.favorite);
+                if(reply.equals("Not Found"))
+                {
+                    favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
+                }
+                else
+                {
+                    favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);
+                }
+
+            }
+            // progress.dismiss();
+        }
+    }
 
 
     private class SendRequest extends AsyncTask<String, String, String> {

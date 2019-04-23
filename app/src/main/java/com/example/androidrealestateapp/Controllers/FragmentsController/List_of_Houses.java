@@ -353,7 +353,7 @@ public class List_of_Houses extends Fragment {
         protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
         {
             progress.dismiss();
-            Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(List_of_Houses.this.getContext(), msg + "", Toast.LENGTH_SHORT).show();
             if (success == false)
             {
             }
