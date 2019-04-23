@@ -1,11 +1,13 @@
 package com.example.androidrealestateapp.Controllers.AddHouseController;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.example.androidrealestateapp.Models.ConnectionClass;
 import com.example.androidrealestateapp.R;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.Statement;
 
@@ -155,9 +158,17 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                         stmt.executeUpdate(query);
 
-                        String pictureQuery = "insert into housePictures(PropertyID,Pic) ";
+                        String pictureQuery = "insert into housePictures(PROPERTYID,PIC) ";
 
-                        pictureQuery += "VALUES (1, " + bundle.getParcelable("housepic") + ");";
+                        byte[] byteArray;
+                        String encodedImage;
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        Bitmap image = bundle.getParcelable("housepic");
+                        image.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+                        byteArray = byteArrayOutputStream.toByteArray();
+                        encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                        pictureQuery += "VALUES (1, " + encodedImage + ");";
 
                         stmt.executeQuery(pictureQuery);
 
