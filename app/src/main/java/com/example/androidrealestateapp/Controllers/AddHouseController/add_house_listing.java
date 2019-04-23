@@ -2,6 +2,7 @@ package com.example.androidrealestateapp.Controllers.AddHouseController;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
 
     private static final int pic_id = 123;
+    private static int RESULT_LOAD_IMAGE = 1;
 
 
     @Nullable
@@ -125,12 +128,18 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         //File pic = intent.getExtras().getParcelable("data");
                         //AddPicture.setImageBitmap(BitmapFactory.decodeFile(pic.getName()));
                         //AddPicture.setImageBitmap(housepic);
-                        */
 
                         Intent gallery_intent = new Intent(Intent.ACTION_PICK);
                         gallery_intent.setType("image/*");
                         startActivityForResult(gallery_intent, pic_id);
                         //startActivityForResult(Intent.createChooser(gallery_intent, "Select Picture"), pic_id);
+                        */
+
+                        Intent i = new Intent(
+                                Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
 
                         return true;
 
@@ -255,11 +264,9 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
         return view;
     }
 
-    public void onActivityResult(int requestCode,
-                                 int resultCode,
-                                 Intent data)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
         // Match the request 'pic id with requestCode
         if (requestCode == pic_id) {
 
@@ -269,8 +276,33 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
             // Set the image in imageview for display
             AddPicture.setImageBitmap(photo);
+            return;
 
         }
+
+        if (resultCode==RESULT_OK) {
+            if (data != null) {
+                Uri uri = data.getData();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                try {
+                    BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri), null, options);
+                    options.inJustDecodeBounds = false;
+                    photo = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri), null, options);
+                    AddPicture.setImageBitmap(photo);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(getActivity(), "Cancelled",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+
+
     }
 
 
