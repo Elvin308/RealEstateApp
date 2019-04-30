@@ -215,8 +215,7 @@ public class ViewHouse extends AppCompatActivity {
                             String reciever = email;
                             String theMessage = message.getText().toString();
                             int PropertyID=houseID;
-                            String values="'"+reciever+"','"+sender+"',"+PropertyID+",'"+theMessage+"'";
-
+                            String values="'"+theMessage+"','"+sender+"',"+PropertyID+",'"+reciever+"'";
                             ViewHouse.SendRequest sendRequest = new SendRequest(ViewHouse.this);
                             sendRequest.execute(values);
                             RequestDialog.cancel();
@@ -395,8 +394,7 @@ public class ViewHouse extends AppCompatActivity {
                 ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
                 Connection conn = (Connection) connectionClass.CONN(); //Connection Object
                 Statement stmt = conn.createStatement();
-                String query = "INSERT INTO Request(REmail,SEmail,PropertyID,Message) VALUES("+values+");";
-
+                String query = "INSERT INTO Request(Message,SEmail,PropertyID,REmail) VALUES("+values+");";
                 stmt.executeUpdate(query);
 
                 conn.close();
