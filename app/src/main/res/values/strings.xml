@@ -134,6 +134,11 @@
         <item>Renting</item>
         <item>Selling</item>
     </string-array>
+    <string-array name="FilterRentedSold">
+        <item>Both</item>
+        <item>Rented</item>
+        <item>Sold</item>
+    </string-array>
     <string-array name="Heating">
         <item>N/A</item>
         <item>Furnace</item>

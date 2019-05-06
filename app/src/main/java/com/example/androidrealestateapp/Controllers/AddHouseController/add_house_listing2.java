@@ -160,6 +160,7 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                         String pictureQuery = "insert into housePictures(PROPERTYID,PIC) ";
 
+
                         byte[] byteArray;
                         String encodedImage;
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

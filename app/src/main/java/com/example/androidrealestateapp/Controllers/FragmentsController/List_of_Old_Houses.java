@@ -117,7 +117,7 @@ public class List_of_Old_Houses extends Fragment {
             floor.setAdapter(adapterGarageFloor);
 
 
-            ArrayAdapter<CharSequence> adapterRentSale= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterRentSale,android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapterRentSale= ArrayAdapter.createFromResource(this.getContext(),R.array.FilterRentedSold,android.R.layout.simple_spinner_item);
             adapterRentSale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             rentSale.setAdapter(adapterRentSale);
 
@@ -202,11 +202,11 @@ public class List_of_Old_Houses extends Fragment {
 
                     if(rentSale.getSelectedItemPosition() == 1)
                     {
-                        modifyQuery+="AND listingtype = 'Renting' ";
+                        modifyQuery+="AND listingtype = 'Rented' ";
                     }
                     else if(rentSale.getSelectedItemPosition() == 2)
                     {
-                        modifyQuery+="AND listingtype = 'Selling' ";
+                        modifyQuery+="AND listingtype = 'Sold' ";
                     }
 
                     if(Searchzip.length() > 0) {
@@ -439,11 +439,12 @@ public class List_of_Old_Houses extends Fragment {
             String price= "$"+formatter.format(amount);
             String Listing =HouseClass.getListingType();
             String finalEndDate =HouseClass.getEnddate();
-            String finalStartDate =HouseClass.getEnddate();
+            String finalStartDate =HouseClass.getStartdate();
 
             String additonal = "Floors: "+HouseClass.getNumOfFloors()+"     Beds: "+HouseClass.getNumOfBed()+"     Baths: "+HouseClass.getNumOfBath()+"     Garages: "+HouseClass.getNumOfGarages();
             holder.addressHolder.setText(houseAdress);
-            holder.startdate.setText("    Posted on "+HouseClass.getStartdate());
+
+            holder.startdate.setText("    Posted on "+finalStartDate);
             holder.priceValue.setText("    For "+ price);
             holder.enddate.setText("    Finalized on "+ finalEndDate);
             holder.additionalInfo.setText(additonal);
@@ -452,8 +453,7 @@ public class List_of_Old_Houses extends Fragment {
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                Toast.makeText(getContext(), "Under Construction", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false));
+                startActivity(new Intent(getActivity(), ViewHouseSecondModel.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("UserEmail",user.getEmail()).putExtra("Manage",false).putExtra("startdate",finalStartDate).putExtra("enddate",finalEndDate).putExtra("oldprice",price));
             });
         }
         // get item count returns the list item count

@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,6 @@ public class ManageHouse extends Fragment {
         orderData.execute("");
 
 
-
         return view;
     }
 
@@ -100,7 +100,7 @@ public class ManageHouse extends Fragment {
                 else {
 
                     // Change below query according to your own database.
-                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE Email='"+bundleManageHouse.getString("UserEmail")+"' ORDER BY PropertyID asc;";
+                    String query = "SELECT TOP 50 PropertyID, StreetName,City,State,Zipcode,Price,NumOfFloors,NumOfBed,NumOfBath,NumOfGarages,ListingType FROM Listing WHERE enddate IS NULL AND Email='"+bundleManageHouse.getString("UserEmail")+"' ORDER BY PropertyID asc;";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if (rs != null) // if resultset not null, I add items to itemArraylist using class created
@@ -222,8 +222,8 @@ public class ManageHouse extends Fragment {
             Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").into(holder.imageView);
 
             holder.layout.setOnClickListener(v->{
-                startActivity(new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("Manage",true));
-                //Toast.makeText(context,"You selected "+HouseClass.getPropertyID(),Toast.LENGTH_SHORT).show();
+                Intent details = new Intent(getActivity(), ViewHouse.class).putExtra("PropertyId",HouseClass.getPropertyID()).putExtra("Manage",true).putExtra("Return",true).putExtra("type",HouseClass.getListingType());
+                startActivityForResult(details,1);
             });
 
         }
@@ -235,4 +235,14 @@ public class ManageHouse extends Fragment {
         }
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            itemArrayList.clear();
+            ManageHouse.SyncData orderData = new ManageHouse.SyncData();
+            orderData.execute("");
+        }
+    }
+
 }

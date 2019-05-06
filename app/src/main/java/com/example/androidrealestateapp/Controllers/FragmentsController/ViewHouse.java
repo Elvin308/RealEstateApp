@@ -49,6 +49,8 @@ public class ViewHouse extends AppCompatActivity {
     int houseID;
     String userEmail;
     Boolean returnInfo;
+    int verify=0;
+    String type;
 
 
     @Override
@@ -62,6 +64,7 @@ public class ViewHouse extends AppCompatActivity {
         userEmail = getIntent().getStringExtra("UserEmail");
         boolean manageHouse = getIntent().getBooleanExtra("Manage",true);
         returnInfo = getIntent().getBooleanExtra("Return",false);
+        type = getIntent().getStringExtra("type");
 
         //connection to database variable
         connectionClass = new ConnectionClass(); // Connection Class Initialization
@@ -231,7 +234,65 @@ public class ViewHouse extends AppCompatActivity {
             modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Currently not available", Toast.LENGTH_SHORT).show();
+
+                    Dialog Options=new Dialog(v.getContext());
+                    Options.setContentView(R.layout.more_options_dialog);
+                    Options.setTitle("Options");
+                    Options.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    Options.show();
+                    Options.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+                    Button delete=Options.findViewById(R.id.delete);
+                    Button sold_rented= Options.findViewById(R.id.store);
+
+                    Options.setOnDismissListener(dismissView ->{
+                        verify=0;
+                    });
+
+                    delete.setOnClickListener(deleteView->{
+                        verify++;
+                        if(verify < 2) {
+                            Toast.makeText(deleteView.getContext(), "Are you sure you want to delete?\nPress again to verify", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(deleteView.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                            //Write code to delete here
+
+                            String value = String.valueOf(houseID);
+                            ViewHouse.DeleteHouse deleteHouse = new ViewHouse.DeleteHouse();
+                            deleteHouse.execute(value);
+
+                            Options.dismiss();
+                            finish();
+                        }
+                    });
+
+                    sold_rented.setOnClickListener(storeView ->{
+                        /**OPEN NEW DIALOG**/
+                        Options.dismiss();
+
+                        Dialog storeDialog=new Dialog(v.getContext());
+                        storeDialog.setContentView(R.layout.price_sold);
+                        storeDialog.setTitle("Options");
+                        storeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        storeDialog.show();
+                        storeDialog.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                        EditText priceSoldField = storeDialog.findViewById(R.id.priceSoldInputField);
+                        Button enterPriceSold = storeDialog.findViewById(R.id.EnterPriceSold);
+
+                        enterPriceSold.setOnClickListener(updateView ->{
+
+                            String[] updateValue = {String.valueOf(houseID),priceSoldField.getText().toString(),type};
+                            ViewHouse.Updatehouse updatehouse = new ViewHouse.Updatehouse();
+                            updatehouse.execute(updateValue);
+                            storeDialog.dismiss();
+                            finish();
+                        });
+                    });
+
                     //add code to modify house info
                 }
             });
@@ -371,7 +432,7 @@ public class ViewHouse extends AppCompatActivity {
     }
 
 
-    private class SendRequest extends AsyncTask<String, String, String> {
+    static private class SendRequest extends AsyncTask<String, String, String> {
         ProgressDialog progress;
         Boolean completed = false;
 
@@ -424,6 +485,97 @@ public class ViewHouse extends AppCompatActivity {
                }
             }
             // progress.dismiss();
+        }
+    }
+
+
+    static private class DeleteHouse extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String value = strings[0];
+            try
+            {
+                ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
+                Connection conn = (Connection) connectionClass.CONN(); //Connection Object
+                Statement stmt = conn.createStatement();
+                String query = "DELETE FROM listing WHERE PropertyID='"+value+"';";
+                stmt.executeUpdate(query);
+
+                conn.close();
+
+
+            }
+            catch (SQLException e)
+            {
+
+                Log.e("ERORR",e.getMessage());
+            }
+
+            return "Completed";
+        }
+        @Override
+        protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
+        {
+
+        }
+    }
+
+
+    static private class Updatehouse extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String id = strings[0];
+            String price = strings[1];
+            String listing = strings[2];
+
+            try
+            {
+                ConnectionClass connectionClass = new ConnectionClass(); // Connection Class Initialization
+                Connection conn = (Connection) connectionClass.CONN(); //Connection Object
+                Statement stmt = conn.createStatement();
+                String query = "UPDATE listing SET pricesold = "+price+",enddate = getDate()";
+
+                if(listing.equals("Selling"))
+                {
+                    query +=", listingtype = 'Sold' ";
+                }
+                else if(listing.equals("Renting"))
+                {
+                    query +=", listingtype = 'Rented' ";
+                }
+
+                query += "WHERE propertyID = '"+id+"';";
+
+                stmt.executeUpdate(query);
+
+                conn.close();
+
+
+            }
+            catch (SQLException e)
+            {
+
+                Log.e("ERORR",e.getMessage());
+            }
+
+            return "Completed";
+        }
+        @Override
+        protected void onPostExecute(String msg) // disimissing progress dialoge, showing error and setting up my listview
+        {
+
         }
     }
 

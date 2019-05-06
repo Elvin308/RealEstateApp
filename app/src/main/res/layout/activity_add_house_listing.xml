@@ -54,7 +54,8 @@
                 android:layout_weight="2"
                 android:hint="@string/enter_street_name"
                 android:inputType="textPostalAddress"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:maxLength="29"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +80,8 @@
                 android:layout_weight="2"
                 android:hint="@string/enter_city_name"
                 android:inputType="textPostalAddress"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:maxLength="24"/>
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +130,8 @@
                 android:layout_weight="2"
                 android:hint="@string/enter_zipcode"
                 android:inputType="number"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:maxLength="14"/>
         </LinearLayout>
 
 
@@ -155,7 +158,8 @@
                 android:layout_weight="2"
                 android:hint="@string/enter_price_amount"
                 android:inputType="numberDecimal"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:maxLength="12"/>
         </LinearLayout>
 
         <LinearLayout

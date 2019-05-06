@@ -8,28 +8,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Message:"
+        android:text="Price Sold at:"
         android:layout_marginBottom="10dp"/>
 
-    <ScrollView
+    <EditText
+        android:id="@+id/priceSoldInputField"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
-
-        <EditText
-            android:id="@+id/messageRequest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start|top"
-            android:text="Message"
-            android:maxLength="199"/>
-
-    </ScrollView>
+        android:layout_height="40dp"
+        android:inputType="numberDecimal"
+        android:lines="1"
+        android:maxLength="12"
+        />
 
     <Button
-        android:id="@+id/Send"
+        android:id="@+id/EnterPriceSold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SEND"
+        android:text="Enter"
         android:background="@drawable/button_shapes"
         android:layout_marginBottom="10dp"/>
 

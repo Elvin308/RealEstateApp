@@ -49,6 +49,9 @@ public class ViewHouseSecondModel extends AppCompatActivity {
     int houseID;
     String userEmail;
     Boolean returnInfo;
+    String startdate;
+    String enddate;
+    String oldprice;
 
 
     @Override
@@ -62,6 +65,9 @@ public class ViewHouseSecondModel extends AppCompatActivity {
         userEmail = getIntent().getStringExtra("UserEmail");
         boolean manageHouse = getIntent().getBooleanExtra("Manage",true);
         returnInfo = getIntent().getBooleanExtra("Return",false);
+        startdate = getIntent().getStringExtra("startdate");
+        enddate = getIntent().getStringExtra("enddate");
+        oldprice = getIntent().getStringExtra("oldprice");
 
         //connection to database variable
         connectionClass = new ConnectionClass(); // Connection Class Initialization
@@ -98,9 +104,15 @@ public class ViewHouseSecondModel extends AppCompatActivity {
         TextView distSytem = (TextView)findViewById(R.id.DistText);
         TextView Size = findViewById(R.id.Size);
         TextView Price = findViewById(R.id.infoPrice);
-        TextView QuickInfo = findViewById(R.id.QuickInfo);
         TextView Address = findViewById(R.id.AddressText);
-        TextView SaleRentText = findViewById(R.id.SaleRentText);
+        TextView bedText = findViewById(R.id.bedText);
+        TextView bathText = findViewById(R.id.bathText);
+        TextView floorText = findViewById(R.id.floorText);
+        TextView type1 = findViewById(R.id.type1);
+        TextView postedDate = findViewById(R.id.postedDate);
+        TextView finalizedDate = findViewById(R.id.finalizedDate);
+        TextView finalPrice = findViewById(R.id.finalPrice);
+
 
         try {
             Connection conn = connectionClass.CONN(); //Connection Object
@@ -119,21 +131,22 @@ public class ViewHouseSecondModel extends AppCompatActivity {
                         String price = "$" + formatter.format(amount);
                         Price.setText(price);
 
-                        String quickInfo = String.valueOf(rs.getDouble("NumOfFloors")) + " Floors | " + String.valueOf(rs.getDouble("NumOfBed")) + " Beds | " + String.valueOf(rs.getDouble("NumOfBath")) + " Baths ";
-                        QuickInfo.setText(quickInfo);
+                        floorText.setText(String.valueOf(rs.getDouble("NumOfFloors")));
+                        bedText.setText(String.valueOf(rs.getDouble("NumOfBed")));
+                        bathText.setText(String.valueOf(rs.getDouble("NumOfBath")));
+                        type1.setText(rs.getString("ListingType"));
+
+                        postedDate.setText(startdate);
+                        finalizedDate.setText(enddate);
+                        finalPrice.setText(oldprice);
+
+
 
                         email = rs.getString("Email");
 
                         address = rs.getString("StreetName") + ", " + rs.getString("City") + ", " + rs.getString("State") + ", " + rs.getString("Zipcode");
                         Address.setText(address);
 
-                        String saleRentText = "";
-                        if (rs.getString("ListingType").equals("Selling")) {
-                            saleRentText = "  House for Sale";
-                        } else {
-                            saleRentText = "  House for Rent";
-                        }
-                        SaleRentText.setText(saleRentText);
 
                         year.setText(String.valueOf(rs.getInt("YearBuilt")));
                         garage.setText(String.valueOf(rs.getDouble("NumOfGarages")));
