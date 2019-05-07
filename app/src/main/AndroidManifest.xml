@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Controllers.FragmentsController.ViewHouseSecondModel" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Controllers.FragmentsController.FavoriteList" android:screenOrientation="portrait"/>
+
         <activity android:name=".Controllers.FragmentsController.ViewHouse" android:screenOrientation="portrait"/>
         <activity android:name=".AddUser" android:screenOrientation="portrait"/>
         <activity android:name=".ChangeUser" android:screenOrientation="portrait"/>

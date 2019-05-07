@@ -52,7 +52,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteList extends Fragment{
+public class FavoriteList extends Fragment {
     private ArrayList<HouseClass> itemArrayList;  //List items Array
     private FavoriteList.MyAppAdapter myAppAdapter; //Array Adapter
     private RecyclerView recyclerViewFavorite; //RecyclerView
