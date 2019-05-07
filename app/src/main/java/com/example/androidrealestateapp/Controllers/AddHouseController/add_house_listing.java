@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,6 +55,8 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
     Bitmap photo;
     ImageButton AddPicture;
+    String picToString;
+
 
 
 
@@ -110,7 +115,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
 
         final Menu menu = dropDownMenu.getMenu();
-        menu.add(0, 0, 0, "Camera roll");
+        menu.add(0, 0, 0, "Gallery");
         menu.add(0, 1, 0, "Camera");
         dropDownMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
         dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -166,15 +171,19 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
             //ADDED NEW***********************************************************************
             boolean continueNext = true;
 
-
-            if(street.getText().toString().trim().length() <= 0)
+            if(picToString == null)
             {
-                street.setError("Cannot be empty");
+                Toast.makeText(this.getContext(),"Need to attach an image",Toast.LENGTH_SHORT).show();
                 continueNext = false;
             }
-            if(city.getText().toString().trim().length() <= 0)
+            if(street.getText().toString().trim().length() <= 10)
             {
-                city.setError("Cannot be empty");
+                street.setError("Enter a house number and street name");
+                continueNext = false;
+            }
+            if(city.getText().toString().trim().length() <= 4)
+            {
+                city.setError("Enter a city");
                 continueNext = false;
             }
             if(price.getText().toString().trim().length() <= 0)
@@ -182,9 +191,17 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                 price.setError("Cannot be empty");
                 continueNext = false;
             }
-            if(zip.getText().toString().trim().length() <= 0)
+            if(price.getText().toString().trim().length() > 0)
             {
-                zip.setError("Cannot be empty");
+                if(Double.parseDouble(price.getText().toString()) < 1.00 || Double.parseDouble(price.getText().toString()) > 2147000000)
+                {
+                    price.setError("Enter an amount higher than 1 and lower than 2,147,000,000");
+                    continueNext = false;
+                }
+            }
+            if(zip.getText().toString().trim().length() <= 4)
+            {
+                zip.setError("Enter a valid zipcode");
                 continueNext = false;
             }
             if(continueNext) {
@@ -219,6 +236,7 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                         bundle.putDouble("Garage", Double.parseDouble(garage.getSelectedItem().toString()));
                         bundle.putString("ListingType", rentSale.getSelectedItem().toString());
                         bundle.putString("Email", user.getEmail());
+                        bundle.putString("picture",picToString);
                         bundle.putParcelable("housepic", photo);
 
 
@@ -269,18 +287,21 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
     {
         // Match the request 'pic id with requestCode
         if (requestCode == pic_id) {
-
             // BitMap is data structure of image file
             // which stor the image in memory
             photo = (Bitmap)data.getExtras().get("data");
 
             // Set the image in imageview for display
             AddPicture.setImageBitmap(photo);
-            return;
 
+            picToString = bitmapToBase64(photo);
+
+            return;
         }
 
         if (resultCode==RESULT_OK) {
+            //This is when searching in gallery
+
             if (data != null) {
                 Uri uri = data.getData();
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -290,6 +311,8 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
                     options.inJustDecodeBounds = false;
                     photo = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri), null, options);
                     AddPicture.setImageBitmap(photo);
+
+                    picToString = bitmapToBase64(photo);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -313,5 +336,13 @@ public class add_house_listing extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+
+    private String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

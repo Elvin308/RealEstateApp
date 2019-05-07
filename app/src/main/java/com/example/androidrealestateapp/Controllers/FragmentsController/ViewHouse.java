@@ -84,14 +84,23 @@ public class ViewHouse extends AppCompatActivity {
         Picasso.get().load("https://static.dezeen.com/uploads/2017/08/clifton-house-project-architecture_dezeen_hero-1.jpg").resize(width,newHeight).into(Image);
 
 
-        ImageView favorite = findViewById(R.id.favorite);
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewHouse.CheckFavorite checkFavorite = new CheckFavorite(ViewHouse.this);
-                checkFavorite.execute();
-            }
-        });
+        if(!manageHouse)
+        {
+            ImageView favorite = findViewById(R.id.favorite);
+            favorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewHouse.CheckFavorite checkFavorite = new CheckFavorite(ViewHouse.this);
+                    checkFavorite.execute();
+                }
+            });
+        }
+        else
+        {
+            ImageView favorite = findViewById(R.id.favorite);
+            favorite.setVisibility(View.INVISIBLE);
+        }
+
 
 
 
@@ -172,8 +181,12 @@ public class ViewHouse extends AppCompatActivity {
             //make a toast
         }
 
-        ViewHouse.FirstCheckFavorite firstCheckFavorite = new FirstCheckFavorite(ViewHouse.this);
-        firstCheckFavorite.execute();
+        if(!manageHouse)
+        {
+            ViewHouse.FirstCheckFavorite firstCheckFavorite = new FirstCheckFavorite(ViewHouse.this);
+            firstCheckFavorite.execute();
+        }
+
 
 
         Address.setOnClickListener(new View.OnClickListener() {

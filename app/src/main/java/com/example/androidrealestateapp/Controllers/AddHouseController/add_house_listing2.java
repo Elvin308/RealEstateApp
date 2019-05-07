@@ -25,6 +25,7 @@ import com.example.androidrealestateapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public class add_house_listing2 extends Fragment implements AdapterView.OnItemSelectedListener{
@@ -104,28 +105,28 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
                 String distributionStr = distribution.getSelectedItem().toString();
 
 
-                if(sqfeet.getText().toString().trim().length()>0)
+                if(sqfeet.getText().toString().trim().length()>1)
                 {
                     sqfeetStr = Integer.valueOf(sqfeet.getText().toString());
-                    continueQuery = true;
+
+                    if(lot.getText().toString().trim().length()>1)
+                    {
+                        lotStr = Integer.valueOf(lot.getText().toString());
+
+                        if(year.getText().toString().trim().length()==4)
+                        {
+                            if(Integer.parseInt(year.getText().toString()) > 1700)
+                            {
+                                yearInt = Integer.parseInt(year.getText().toString());
+                                continueQuery = true;
+                            }
+                            else { year.setError("Must be a valid year after 1700"); continueQuery = false; }
+                        }
+                        else { year.setError("Must be a valid year after 1700"); continueQuery = false; }
+                    }
+                    else { lot.setError("Cannot be empty"); continueQuery = false; }
                 }
                 else { sqfeet.setError("Cannot be empty"); continueQuery = false; }
-
-
-                if(lot.getText().toString().trim().length()>0)
-                {
-                    lotStr = Integer.valueOf(lot.getText().toString());
-                    continueQuery = true;
-                }
-                else { lot.setError("Cannot be empty"); continueQuery = false; }
-
-
-                if(year.getText().toString().trim().length()>0)
-                {
-                    yearInt = Integer.parseInt(year.getText().toString());
-                    continueQuery = true;
-                }
-                else { year.setError("Cannot be empty"); continueQuery = false; }
 
 
                 if(continueQuery)
@@ -158,9 +159,18 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                         stmt.executeUpdate(query);
 
+
+                        /** Tried using this query as well, is having problems storing to image to database
+                        String pic = bundle.getString("picture");
+                        PreparedStatement newQuery=conn.prepareStatement("INSERT INTO Pictures(PropertyId,Pic) VALUES(?,?)");
+                        newQuery.setInt(1,1);
+                        newQuery.setString(2,pic); //there is a problem here, it keeps failing when trying to insert the string 'pic'.... other strings work though
+                        int i=newQuery.executeUpdate();
+                        **/
+
+
+                        /*
                         String pictureQuery = "insert into housePictures(PROPERTYID,PIC) ";
-
-
                         byte[] byteArray;
                         String encodedImage;
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -171,7 +181,8 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
 
                         pictureQuery += "VALUES (1, " + encodedImage + ");";
 
-                        stmt.executeQuery(pictureQuery);
+
+                        stmt.executeQuery(pictureQuery);*/
 
 
 
@@ -181,7 +192,7 @@ public class add_house_listing2 extends Fragment implements AdapterView.OnItemSe
                     }
                     catch (Exception f)
                     {
-                        Log.e("ERORR",f.getMessage());
+                        Log.e("DATABASE ERORR",f.getMessage());
                     }
 
                     Fragment fragmentA = getActivity().getSupportFragmentManager().findFragmentByTag("toAddHouse2");

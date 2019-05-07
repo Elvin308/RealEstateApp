@@ -25,7 +25,8 @@
             android:layout_marginTop="20dp"
             android:contentDescription="@string/picture_of_house"
             android:scaleType="centerCrop"
-            android:src="@drawable/cameraicon" />
+            android:src="@drawable/cameraicon"
+            android:background="@null"/>
 
 
         <TextView
@@ -159,7 +160,7 @@
                 android:hint="@string/enter_price_amount"
                 android:inputType="numberDecimal"
                 android:paddingBottom="10dp"
-                android:maxLength="12"/>
+                android:maxLength="10"/>
         </LinearLayout>
 
         <LinearLayout

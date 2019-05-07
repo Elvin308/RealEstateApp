@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:hint="@string/enter_zipcode"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="4"/>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +68,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:hint="Min"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="9"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -84,7 +86,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:hint="Max"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="9"/>
 
     </LinearLayout>
 

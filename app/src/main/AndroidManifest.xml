@@ -13,16 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controllers.FragmentsController.ViewHouseSecondModel"></activity>
-        <activity android:name=".Controllers.FragmentsController.FavoriteList" />
-        <activity android:name=".Controllers.FragmentsController.ViewHouse" />
-        <activity android:name=".AddUser" />
-        <activity android:name=".ChangeUser" />
+        <activity android:name=".Controllers.FragmentsController.ViewHouseSecondModel" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Controllers.FragmentsController.FavoriteList" android:screenOrientation="portrait"/>
+        <activity android:name=".Controllers.FragmentsController.ViewHouse" android:screenOrientation="portrait"/>
+        <activity android:name=".AddUser" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangeUser" android:screenOrientation="portrait"/>
         <activity
             android:name=".Controllers.MainViewController.Navigation"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Controllers.MainViewController.LogIn">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Controllers.MainViewController.LogIn" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.package.name.MyActivity" />

@@ -94,7 +94,7 @@ public class AddUser extends AppCompatActivity {
                  Lname.setError("Cannot be empty");
                  continueNext = false;
              }
-             if(!isNumber || phoneNum.trim().length() < 10 || phoneNum.trim().length() > 11)
+             if(!isNumber || phoneNum.trim().length() < 10 || phoneNum.trim().length() > 13)
              {
                  Phone.setError("Need to enter a phone number");
                  continueNext = false;
