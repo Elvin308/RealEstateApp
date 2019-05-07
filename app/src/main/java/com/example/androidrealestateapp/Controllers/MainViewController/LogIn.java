@@ -96,7 +96,7 @@ public class LogIn extends AppCompatActivity {
                     //Toast.makeText(getContext(), "Got an exception!",Toast.LENGTH_SHORT);
                 }
             } else {
-                Toast.makeText(this, "You arren oer ", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Connect to internet", Toast.LENGTH_LONG).show();
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
