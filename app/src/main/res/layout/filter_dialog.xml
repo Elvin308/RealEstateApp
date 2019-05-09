@@ -41,7 +41,7 @@
             android:paddingBottom="10dp"
             android:hint="@string/enter_zipcode"
             android:inputType="number"
-            android:maxLength="4"/>
+            android:maxLength="5"/>
     </LinearLayout>
 
     <LinearLayout
